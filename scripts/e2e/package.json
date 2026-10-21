@@ -1,0 +1,9 @@
+{
+  "name": "the-void-files-e2e",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "playwright": "^1.56.0"
+  }
+}
+

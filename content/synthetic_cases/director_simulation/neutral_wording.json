@@ -1,0 +1,29 @@
+{
+  "wording_format_version": 1,
+  "placeholder_fallback_texts": {
+    "nombre": "el investigador",
+    "nombre_completo": "el investigador",
+    "residencia": "una ciudad cualquiera",
+    "origen": "un lugar sin importancia",
+    "edad": "treinta",
+    "fecha_nacimiento": "un día cualquiera",
+    "ancla_nombre": "alguien cercano",
+    "ancla_vinculo": "un vínculo antiguo"
+  },
+  "unknown_placeholder_fallback_text": "",
+  "month_names": [
+    "enero",
+    "febrero",
+    "marzo",
+    "abril",
+    "mayo",
+    "junio",
+    "julio",
+    "agosto",
+    "septiembre",
+    "octubre",
+    "noviembre",
+    "diciembre"
+  ],
+  "birth_date_template": "{day} de {month_name} de {year}"
+}

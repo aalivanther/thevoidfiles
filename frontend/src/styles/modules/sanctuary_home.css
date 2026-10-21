@@ -1,0 +1,1696 @@
+:root[data-module-theme='sanctuary'] {
+  --sanctuary-lamp-light: #d9cfb8;
+  --sanctuary-lamp-light-soft: rgb(217 207 184 / 0.16);
+  --sanctuary-wood-dark: #17110c;
+  --sanctuary-wood: #2a1d14;
+  --sanctuary-wood-edge: #5a3f29;
+  --sanctuary-paper-ink: #1b1813;
+  --sanctuary-paper-accent: #8f1027;
+}
+
+:root[data-module-theme='sanctuary'] .presentation-card-backdrop {
+  background:
+    radial-gradient(ellipse 60% 70% at 22% 30%, rgb(232 181 101 / 0.24), transparent 70%),
+    linear-gradient(180deg, #1a130d, #0d0a08);
+}
+
+:root[data-module-theme='sanctuary'] .presentation-card-backdrop::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -20% -30%;
+  background: repeating-linear-gradient(
+    172deg,
+    transparent 0 34px,
+    rgb(232 181 101 / 0.17) 34px 52px,
+    transparent 52px 70px
+  );
+  mask-image: linear-gradient(100deg, transparent 8%, black 38%, black 62%, transparent 92%);
+  animation: sanctuary-card-blind-light-crossing 3600ms ease-in-out var(--presentation-delay, 0ms) both;
+}
+
+:root[data-module-theme='sanctuary'] .presentation-card-backdrop::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -140px 0 0 -140px;
+  width: calc(100% + 280px);
+  height: calc(100% + 280px);
+  opacity: 0.4;
+  background:
+    repeating-linear-gradient(101deg, transparent 0 41px, rgb(190 210 230 / 0.2) 41px 42px, transparent 42px 97px),
+    repeating-linear-gradient(101deg, transparent 0 67px, rgb(190 210 230 / 0.12) 67px 68px, transparent 68px 139px);
+  mask-image: repeating-linear-gradient(11deg, black 0 24px, transparent 24px 66px);
+  animation: none;
+}
+
+:root[data-module-theme='sanctuary'] .presentation-card-upper-band {
+  background: var(--sanctuary-wood);
+  border-bottom: 3px solid var(--sanctuary-lamp-light);
+}
+
+:root[data-module-theme='sanctuary'] .presentation-card-lower-band {
+  background: var(--sanctuary-wood-dark);
+  border-top: 3px solid var(--sanctuary-wood-edge);
+}
+
+:root[data-module-theme='sanctuary'] .presentation-card-backdrop .presentation-card-label {
+  color: var(--sanctuary-lamp-light);
+}
+
+:root[data-module-theme='sanctuary'] .presentation-card-backdrop .display-title {
+  text-shadow:
+    0 0 38px rgb(232 181 101 / 0.35),
+    4px 4px 0 #000;
+}
+
+:root[data-module-theme='sanctuary'] .module-atmosphere-layer::before {
+  inset: -140px 0 0 -140px;
+  width: calc(100% + 280px);
+  height: calc(100% + 280px);
+  opacity: 0.32;
+  background:
+    repeating-linear-gradient(101deg, transparent 0 43px, rgb(190 210 230 / 0.18) 43px 44px, transparent 44px 101px),
+    repeating-linear-gradient(101deg, transparent 0 71px, rgb(190 210 230 / 0.1) 71px 72px, transparent 72px 149px);
+  mask-image:
+    linear-gradient(90deg, transparent 52%, black 78%),
+    repeating-linear-gradient(11deg, black 0 26px, transparent 26px 70px);
+  mask-composite: intersect;
+  animation: none;
+}
+
+:root[data-module-theme='sanctuary'] .module-atmosphere-layer::after {
+  inset: 0;
+  opacity: 1;
+  background:
+    radial-gradient(ellipse 46% 58% at 12% 8%, rgb(232 181 101 / 0.13), transparent 72%),
+    linear-gradient(180deg, transparent 70%, rgb(42 29 20 / 0.55));
+}
+
+.sanctuary-home-screen {
+  position: relative;
+}
+
+.sanctuary-interior-light-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.sanctuary-window-light-sweep {
+  position: absolute;
+  left: -70%;
+  top: 12%;
+  width: 70%;
+  height: var(--sweep-height, 30%);
+  opacity: 0;
+  transform: rotate(var(--sweep-tilt, -10deg));
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0 14px,
+    rgb(232 181 101 / 0.13) 14px 26px,
+    transparent 26px 32px
+  );
+  mask-image: linear-gradient(90deg, transparent, black 30%, black 70%, transparent);
+}
+
+.sanctuary-window-light-sweep.passing_car_sweep {
+  animation: sanctuary-light-passing-car var(--sweep-seconds, 4s) ease-in-out both;
+}
+
+.sanctuary-window-light-sweep.slow_moon_drift {
+  left: 18%;
+  animation: sanctuary-light-moon-drift calc(var(--sweep-seconds, 4s) * 2) ease-in-out both;
+}
+
+.sanctuary-window-light-sweep.distant_lightning_flicker {
+  left: 30%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0 14px,
+    rgb(205 222 240 / 0.16) 14px 26px,
+    transparent 26px 32px
+  );
+  animation: sanctuary-light-distant-lightning 1700ms steps(1, end) both;
+}
+
+.sanctuary-lamp-light-cone {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: min(70vw, 760px);
+  height: min(90vh, 820px);
+  background: linear-gradient(140deg, rgb(217 207 184 / 0.1), transparent 62%);
+  clip-path: polygon(0 0, 38% 0, 100% 100%, 0 78%);
+}
+
+.sanctuary-dust-mote {
+  position: absolute;
+  left: var(--dust-left, 20%);
+  top: var(--dust-top, 40%);
+  width: var(--dust-size, 3px);
+  height: var(--dust-size, 3px);
+  border-radius: 50%;
+  opacity: 0.3;
+  background: var(--sanctuary-lamp-light, #e8b565);
+}
+
+.sanctuary-dust-mote.dust_rising_drift {
+  animation: sanctuary-dust-rising var(--dust-seconds, 14s) linear var(--dust-delay, 0s) infinite;
+}
+
+.sanctuary-dust-mote.dust_sideways_drift {
+  animation: sanctuary-dust-sideways var(--dust-seconds, 14s) ease-in-out var(--dust-delay, 0s) infinite;
+}
+
+.sanctuary-dust-mote.dust_swirling_drift {
+  animation: sanctuary-dust-swirling var(--dust-seconds, 14s) ease-in-out var(--dust-delay, 0s) infinite;
+}
+
+.sanctuary-home-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .sanctuary-home-header {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 20rem);
+    gap: 2.5rem;
+  }
+}
+
+.sanctuary-home-title {
+  position: relative;
+  isolation: isolate;
+  text-shadow: 3px 3px 0 #000;
+}
+
+.sanctuary-header-lamp {
+  position: absolute;
+  z-index: -1;
+  left: -2.5rem;
+  top: 50%;
+  width: 16rem;
+  height: 9rem;
+  translate: 0 -50%;
+  background: radial-gradient(ellipse closest-side at 50% 50%, rgb(232 181 101 / 0.34), transparent 100%);
+  pointer-events: none;
+}
+
+.sanctuary-header-lamp.flickering_ignition,
+.sanctuary-drawing-lamp-beam.flickering_ignition {
+  animation: sanctuary-lamp-flickering-ignition 1300ms steps(1, end) 200ms both;
+}
+
+.sanctuary-header-lamp.slow_warm_ignition,
+.sanctuary-drawing-lamp-beam.slow_warm_ignition {
+  animation: sanctuary-lamp-slow-warm-ignition 1900ms ease-out 200ms both;
+}
+
+.sanctuary-header-lamp.double_blink_ignition,
+.sanctuary-drawing-lamp-beam.double_blink_ignition {
+  animation: sanctuary-lamp-double-blink-ignition 1100ms steps(1, end) 200ms both;
+}
+
+.sanctuary-room-description {
+  font-family: var(--font-narrative);
+  font-size: 1.0625rem;
+  line-height: 1.62;
+  font-weight: 420;
+  overflow-wrap: anywhere;
+}
+
+.sanctuary-room-description p + p {
+  margin-top: 0.7em;
+}
+
+.sanctuary-funds-ledger {
+  padding: 1rem 1.1rem;
+  rotate: 0.6deg;
+}
+
+.sanctuary-paper-label {
+  font-family: var(--font-dossier);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sanctuary-paper-ink, #1b1813);
+  opacity: 0.8;
+}
+
+.sanctuary-funds-ledger .status-value-pulse {
+  animation: sanctuary-funds-ink-pulse 560ms var(--ease-snap);
+  transform-origin: left center;
+}
+
+.sanctuary-funds-ledger-lines {
+  margin-top: 0.5rem;
+  font-family: var(--font-dossier);
+  font-size: 0.8125rem;
+}
+
+.sanctuary-funds-ledger-lines > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.15rem 0.75rem;
+  padding: 0.3rem 0;
+  border-top: 1px dashed rgb(0 0 0 / 0.45);
+}
+
+.sanctuary-funds-ledger-lines dd {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.sanctuary-away-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 1rem 1.1rem;
+  color: var(--color-paper-text);
+  background:
+    repeating-linear-gradient(135deg, rgb(232 181 101 / 0.07) 0 12px, transparent 12px 24px),
+    var(--sanctuary-wood, #2a1d14);
+  border: 2px solid var(--sanctuary-lamp-light, #e8b565);
+  box-shadow: 4px 4px 0 0 #000;
+  animation: sanctuary-away-notice-lock 420ms var(--ease-snap) both;
+}
+
+.sanctuary-away-notice svg {
+  color: var(--sanctuary-lamp-light, #e8b565);
+}
+
+.sanctuary-section-list {
+  display: flex;
+  gap: 0.35rem;
+  overflow-x: auto;
+  border-bottom: 2px solid var(--sanctuary-wood-edge, #5a3f29);
+  scrollbar-width: thin;
+}
+
+.sanctuary-section-trigger {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 48px;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--color-paper-muted);
+  border: 2px solid transparent;
+  border-bottom: 0;
+  transition:
+    color 130ms var(--ease-snap),
+    background 130ms var(--ease-snap),
+    transform 130ms var(--ease-snap);
+}
+
+.sanctuary-section-trigger:hover {
+  color: var(--color-paper-text);
+  transform: translateY(-2px);
+}
+
+.sanctuary-section-trigger[data-state='active'] {
+  color: var(--color-paper-text);
+  background: var(--sanctuary-wood, #2a1d14);
+  border-color: var(--sanctuary-wood-edge, #5a3f29);
+}
+
+.sanctuary-section-trigger[data-state='active']::after {
+  content: '';
+  position: absolute;
+  left: 0.5rem;
+  right: 0.5rem;
+  bottom: 4px;
+  height: 3px;
+  background: var(--sanctuary-lamp-light, #e8b565);
+  animation: sanctuary-section-marker-grow 260ms var(--ease-snap) both;
+  transform-origin: left center;
+}
+
+.sanctuary-section-content {
+  padding-top: 1.75rem;
+}
+
+.sanctuary-section-content[data-state='active'] {
+  animation: sanctuary-section-arrive 300ms var(--ease-snap) both;
+}
+
+.sanctuary-house-cutaway {
+  position: relative;
+  padding: 0.6rem;
+  background: var(--sanctuary-wood-dark, #17110c);
+  border: 3px solid var(--sanctuary-wood-edge, #5a3f29);
+  box-shadow: 6px 6px 0 0 #000;
+}
+
+.sanctuary-house-roof {
+  display: block;
+  height: 14px;
+  margin: -0.6rem -0.6rem 0.6rem;
+  background: repeating-linear-gradient(90deg, var(--sanctuary-wood, #2a1d14) 0 22px, var(--sanctuary-wood-edge, #5a3f29) 22px 24px);
+  border-bottom: 3px solid var(--sanctuary-wood-edge, #5a3f29);
+}
+
+.sanctuary-house-rooms {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.sanctuary-house-room[data-room='storage'] {
+  grid-column: span 2;
+}
+
+@media (min-width: 768px) {
+  .sanctuary-house-rooms {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .sanctuary-house-room {
+    grid-column: span 2;
+  }
+
+  .sanctuary-house-room[data-room='bedroom'],
+  .sanctuary-house-room[data-room='storage'] {
+    grid-column: span 3;
+  }
+}
+
+.sanctuary-house-room {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  text-align: left;
+  color: var(--color-paper-text);
+  background: linear-gradient(180deg, #1d1712, #120e0b);
+  border: 2px solid var(--sanctuary-wood-edge, #5a3f29);
+  transition:
+    border-color 140ms var(--ease-snap),
+    transform 140ms var(--ease-snap),
+    box-shadow 140ms var(--ease-snap);
+}
+
+.sanctuary-house-room:hover {
+  transform: translate(-1px, -2px);
+  border-color: var(--color-paper-text);
+}
+
+.sanctuary-house-room[aria-pressed='true'] {
+  border-color: var(--sanctuary-lamp-light, #e8b565);
+  box-shadow:
+    inset 0 0 0 2px var(--sanctuary-lamp-light, #e8b565),
+    inset 0 0 46px rgb(232 181 101 / 0.16);
+}
+
+.sanctuary-house-room[aria-pressed='true'] .sanctuary-house-room-name::before {
+  content: '▸ ';
+  color: var(--sanctuary-lamp-light, #e8b565);
+}
+
+.sanctuary-room-drawing {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 15rem;
+}
+
+.sanctuary-house-room-caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.15rem 0.6rem;
+  padding: 0.45rem 0.6rem 0.55rem;
+  border-top: 2px solid var(--sanctuary-wood-edge, #5a3f29);
+  background: rgb(0 0 0 / 0.35);
+}
+
+.sanctuary-house-room-name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.sanctuary-house-room-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--font-dossier);
+  font-size: 0.75rem;
+  color: var(--color-paper-muted);
+}
+
+.sanctuary-house-room[data-room-state='under_construction'] .sanctuary-house-room-state,
+.sanctuary-house-room[data-room-state='improved'] .sanctuary-house-room-state {
+  color: var(--sanctuary-lamp-light, #e8b565);
+}
+
+.sanctuary-drawing-ink {
+  fill: none;
+  stroke: #b9ad98;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sanctuary-drawing-ink .sanctuary-drawing-solid,
+.sanctuary-drawing-solid {
+  fill: var(--sanctuary-wood, #2a1d14);
+}
+
+.sanctuary-drawing-window {
+  fill: #0f1923;
+  stroke: #b9ad98;
+  stroke-width: 1.6;
+}
+
+.sanctuary-drawing-rain {
+  stroke: rgb(170 198 226 / 0.6);
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  animation: none;
+}
+
+.sanctuary-drawing-blind {
+  stroke: rgb(232 181 101 / 0.6);
+  stroke-width: 2.2;
+}
+
+.sanctuary-drawing-lamp-beam {
+  fill: rgb(217 207 184 / 0.2);
+  stroke: none;
+}
+
+.sanctuary-drawing-lamp-fill,
+.sanctuary-drawing-ink .sanctuary-drawing-lamp-fill {
+  fill: var(--sanctuary-lamp-light, #e8b565);
+  stroke: none;
+}
+
+.sanctuary-drawing-paper,
+.sanctuary-drawing-ink .sanctuary-drawing-paper {
+  fill: var(--color-aged-paper);
+  stroke: none;
+}
+
+.sanctuary-drawing-cork {
+  fill: #6b4a2b;
+  stroke: #b9ad98;
+  stroke-width: 1.6;
+}
+
+.sanctuary-drawing-thread,
+.sanctuary-drawing-ink .sanctuary-drawing-thread {
+  fill: none;
+  stroke: var(--color-blood-accent);
+  stroke-width: 1.4;
+}
+
+.sanctuary-drawing-darkroom-glow {
+  fill: rgb(200 30 58 / 0.3);
+}
+
+.sanctuary-drawing-darkroom-bulb {
+  fill: #ff3b30;
+  animation: sanctuary-darkroom-bulb-breathe 3200ms ease-in-out infinite alternate;
+}
+
+.sanctuary-drawing-upgrade {
+  animation: sanctuary-upgrade-reveal 700ms var(--ease-snap) both;
+  transform-origin: 100px 120px;
+}
+
+.sanctuary-drawing-scaffold {
+  fill: none;
+  stroke: var(--sanctuary-lamp-light, #e8b565);
+  stroke-width: 2;
+  stroke-linecap: square;
+}
+
+.sanctuary-drawing-scaffold line,
+.sanctuary-drawing-scaffold rect {
+  animation: sanctuary-scaffold-piece-arrive 320ms var(--ease-snap) both;
+}
+
+.sanctuary-drawing-scaffold .sanctuary-drawing-scaffold-veil {
+  fill: rgb(11 11 13 / 0.5);
+  stroke: none;
+  animation: none;
+}
+
+.sanctuary-drawing-scaffold-plank {
+  stroke: #a07a44;
+  stroke-width: 5;
+}
+
+.sanctuary-drawing-worker {
+  transform-origin: 100px 58px;
+}
+
+.sanctuary-drawing-worker rect {
+  fill: #b9ad98;
+  stroke: none;
+  animation: none;
+}
+
+.sanctuary-drawing-worker.hammering_work {
+  animation: sanctuary-work-hammering 620ms var(--ease-snap) infinite;
+}
+
+.sanctuary-drawing-worker.sawing_work {
+  animation: sanctuary-work-sawing 520ms ease-in-out infinite alternate;
+}
+
+.sanctuary-drawing-worker.welding_work {
+  transform: rotate(24deg);
+}
+
+.sanctuary-drawing-work-sparks {
+  fill: var(--sanctuary-lamp-light, #e8b565);
+  stroke: none;
+  opacity: 0;
+}
+
+.sanctuary-drawing-work-sparks.hammering_work {
+  animation: sanctuary-work-impact-sparks 620ms steps(1, end) infinite;
+}
+
+.sanctuary-drawing-work-sparks.sawing_work {
+  fill: #c8b48a;
+  animation: sanctuary-work-falling-sawdust 1040ms linear infinite;
+}
+
+.sanctuary-drawing-work-sparks.welding_work {
+  fill: #cfe6ff;
+  animation: sanctuary-work-welding-sparks 900ms steps(1, end) infinite;
+}
+
+.sanctuary-upgrade-card {
+  overflow: hidden;
+}
+
+.sanctuary-upgrade-card[data-upgrade-state='under_construction'] {
+  border-color: var(--sanctuary-lamp-light, #e8b565);
+  border-style: dashed;
+}
+
+.sanctuary-upgrade-card[data-upgrade-state='installed'] {
+  border-color: var(--sanctuary-wood-edge, #5a3f29);
+  background: linear-gradient(180deg, var(--sanctuary-wood, #2a1d14), var(--color-void-surface));
+}
+
+.sanctuary-upgrade-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem 1rem;
+  padding-top: 0.75rem;
+  border-top: 2px solid var(--color-ink-line);
+}
+
+@media (max-width: 380px) {
+  .sanctuary-upgrade-facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.sanctuary-upgrade-fact-wide {
+  grid-column: 1 / -1;
+}
+
+.sanctuary-upgrade-facts dt {
+  font-family: var(--font-dossier);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-paper-muted);
+}
+
+.sanctuary-upgrade-facts dd {
+  margin-top: 0.1rem;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.sanctuary-upgrade-facts dd[data-exposure-level='slight'],
+.sanctuary-upgrade-facts dd[data-exposure-level='noticeable'] {
+  color: var(--sanctuary-lamp-light, #e8b565);
+}
+
+:root[data-module-theme='sanctuary'] .primary-action-button[data-unavailable='true'] {
+  color: var(--color-paper-muted);
+  background: var(--color-void-elevated);
+  border: 2px dashed var(--color-ink-line);
+  box-shadow: none;
+}
+
+:root[data-module-theme='sanctuary'] .primary-action-button[data-unavailable='true']:hover:not(:disabled) {
+  transform: none;
+  box-shadow: none;
+  filter: none;
+}
+
+:root[data-module-theme='sanctuary'] .quiet-action-button[data-unavailable='true'],
+:root[data-module-theme='sanctuary'] .quiet-action-button[aria-disabled='true'] {
+  border-style: dashed;
+  opacity: 0.7;
+}
+
+.sanctuary-construction-track {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.sanctuary-construction-stage {
+  height: 14px;
+  border: 2px dashed var(--color-ink-line);
+}
+
+.sanctuary-construction-stage[data-stage-reached='true'] {
+  border: 2px solid #000;
+  background: repeating-linear-gradient(135deg, var(--sanctuary-lamp-light, #e8b565) 0 8px, #17110c 8px 16px);
+  animation: sanctuary-construction-stage-raise 360ms var(--ease-snap) both;
+  transform-origin: bottom center;
+}
+
+.sanctuary-paid-stamp {
+  position: absolute;
+  top: 2.6rem;
+  right: 0.9rem;
+  padding: 0.1rem 0.6rem;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  letter-spacing: 0.08em;
+  line-height: 1.25;
+  text-transform: uppercase;
+  color: var(--sanctuary-paper-accent, #8f1027);
+  background: var(--color-aged-paper);
+  border: 3px solid var(--sanctuary-paper-accent, #8f1027);
+  box-shadow: 3px 3px 0 0 #000;
+  transform: rotate(var(--paid-stamp-tilt, -8deg));
+  pointer-events: none;
+}
+
+.sanctuary-paid-stamp.paid_stamp_slam {
+  animation: sanctuary-paid-stamp-slam 420ms var(--ease-snap) both;
+}
+
+.sanctuary-paid-stamp.paid_stamp_roll {
+  animation: sanctuary-paid-stamp-roll 520ms var(--ease-snap) both;
+}
+
+.sanctuary-paid-stamp.paid_stamp_double {
+  animation: sanctuary-paid-stamp-double 560ms var(--ease-snap) both;
+}
+
+.sanctuary-commitment-facts {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.sanctuary-commitment-facts dt {
+  font-family: var(--font-dossier);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.quiet-action-button.sanctuary-paper-quiet-button {
+  color: var(--sanctuary-paper-ink, #1b1813);
+  border-color: rgb(0 0 0 / 0.7);
+}
+
+.quiet-action-button.sanctuary-paper-quiet-button:hover:not(:disabled) {
+  background: rgb(0 0 0 / 0.1);
+  border-color: #000;
+}
+
+.quiet-action-button.sanctuary-paper-quiet-button.sanctuary-paper-danger-button {
+  color: var(--sanctuary-paper-accent, #8f1027);
+  border-color: var(--sanctuary-paper-accent, #8f1027);
+}
+
+@media (min-width: 1024px) {
+  .quiet-action-button.sanctuary-small-screen-only {
+    display: none;
+  }
+}
+
+.sanctuary-upgrade-card.rejection-shake {
+  animation: rejection-shake 320ms var(--ease-snap);
+}
+
+.free-action-field.sanctuary-search-field {
+  min-height: 48px;
+  padding-left: 2.6rem;
+}
+
+.sanctuary-tag-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  min-height: 44px;
+  max-width: 100%;
+  padding: 0.3rem 0.7rem;
+  font-family: var(--font-dossier);
+  font-size: 0.8125rem;
+  overflow-wrap: anywhere;
+  color: var(--color-paper-muted);
+  border: 2px solid var(--color-ink-line);
+  transition:
+    color 120ms var(--ease-snap),
+    border-color 120ms var(--ease-snap),
+    transform 120ms var(--ease-snap);
+}
+
+.sanctuary-tag-filter:hover {
+  color: var(--color-paper-text);
+  border-color: var(--color-paper-text);
+}
+
+.sanctuary-tag-filter:active {
+  transform: scale(0.96);
+}
+
+.sanctuary-tag-filter[aria-pressed='true'] {
+  color: var(--color-paper-text);
+  background: var(--sanctuary-wood, #2a1d14);
+  border-color: var(--sanctuary-lamp-light, #e8b565);
+}
+
+.sanctuary-tag-filter[aria-pressed='true']::before {
+  content: '✓';
+  color: var(--sanctuary-lamp-light, #e8b565);
+}
+
+.sanctuary-note-empty,
+.sanctuary-note-editor-placeholder {
+  padding: 1.25rem;
+  color: var(--color-paper-muted);
+  border: 2px dashed var(--sanctuary-wood-edge, #5a3f29);
+  background: rgb(23 17 12 / 0.6);
+}
+
+.sanctuary-note-editor-placeholder {
+  display: flex;
+  min-height: 16rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.sanctuary-note-slip {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 56px;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.7rem 0.85rem;
+  text-align: left;
+  color: var(--sanctuary-paper-ink, #1b1813);
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.22), transparent 40%),
+    var(--color-aged-paper);
+  border: 2px solid #000;
+  box-shadow: 4px 4px 0 0 #000;
+  transform: rotate(var(--note-tilt, 0deg));
+  transition:
+    transform 140ms var(--ease-snap),
+    box-shadow 140ms var(--ease-snap);
+}
+
+.sanctuary-note-slip:hover {
+  transform: rotate(var(--note-tilt, 0deg)) translate(-1px, -2px);
+  box-shadow: 6px 6px 0 0 #000;
+}
+
+.sanctuary-note-slip[aria-current='true'] {
+  outline: 3px solid var(--sanctuary-lamp-light, #e8b565);
+  outline-offset: 2px;
+  transform: translateX(6px);
+}
+
+.sanctuary-note-slip[data-pinned='true'] {
+  padding-right: 2.4rem;
+}
+
+.sanctuary-note-pin {
+  position: absolute;
+  top: -9px;
+  right: 0.7rem;
+  color: var(--sanctuary-paper-accent, #8f1027);
+  filter: drop-shadow(2px 2px 0 rgb(0 0 0 / 0.55));
+}
+
+.sanctuary-note-slip.pin_straight_drop .sanctuary-note-pin {
+  animation: sanctuary-pin-straight-drop 380ms var(--ease-snap) both;
+}
+
+.sanctuary-note-slip.pin_twisting_push .sanctuary-note-pin {
+  animation: sanctuary-pin-twisting-push 480ms var(--ease-snap) both;
+}
+
+.sanctuary-note-slip.pin_hammered_twice .sanctuary-note-pin {
+  animation: sanctuary-pin-hammered-twice 560ms var(--ease-snap) both;
+}
+
+.sanctuary-note-slip-title {
+  font-family: var(--font-dossier);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.sanctuary-note-slip-preview {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 0.8438rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.sanctuary-note-slip-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.1rem 0.5rem;
+  font-family: var(--font-dossier);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--sanctuary-paper-accent, #8f1027);
+  overflow-wrap: anywhere;
+}
+
+.sanctuary-note-editor {
+  animation: sanctuary-note-editor-unfold 300ms var(--ease-snap) both;
+}
+
+.sanctuary-autosave-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-left: auto;
+  font-family: var(--font-dossier);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--sanctuary-paper-ink, #1b1813);
+}
+
+.sanctuary-autosave-status[data-autosave-state='saved'] {
+  color: #1d5a3a;
+}
+
+.sanctuary-autosave-status[data-autosave-state='locked'] {
+  color: var(--sanctuary-paper-accent, #8f1027);
+}
+
+.sanctuary-autosave-spinner {
+  animation: sanctuary-autosave-spinner-turn 900ms linear infinite;
+}
+
+.sanctuary-paper-field {
+  display: block;
+  width: 100%;
+  min-height: 46px;
+  margin-top: 0.25rem;
+  padding: 0.55rem 0.7rem;
+  font-family: var(--font-dossier);
+  font-size: 1rem;
+  line-height: 1.6rem;
+  color: var(--sanctuary-paper-ink, #1b1813);
+  caret-color: var(--sanctuary-paper-accent, #8f1027);
+  background: rgb(255 255 255 / 0.32);
+  border: 2px solid rgb(0 0 0 / 0.7);
+  border-radius: 0;
+}
+
+.sanctuary-paper-field::placeholder {
+  color: rgb(27 24 19 / 0.6);
+}
+
+.sanctuary-paper-field:focus {
+  outline: 3px solid var(--sanctuary-paper-accent, #8f1027);
+  outline-offset: 1px;
+}
+
+.sanctuary-paper-field:read-only {
+  background: rgb(0 0 0 / 0.06);
+  border-style: dashed;
+}
+
+.sanctuary-paper-title-field {
+  font-weight: 700;
+}
+
+.sanctuary-paper-body-field {
+  min-height: 15rem;
+  resize: vertical;
+  overflow-wrap: anywhere;
+  background:
+    repeating-linear-gradient(180deg, transparent 0 calc(1.6rem - 1px), rgb(27 24 19 / 0.18) calc(1.6rem - 1px) 1.6rem),
+    rgb(255 255 255 / 0.32);
+  background-attachment: local;
+  background-position: 0 0.55rem;
+}
+
+.sanctuary-paper-tag-field {
+  flex: 1 1 10rem;
+  width: auto;
+  min-width: 0;
+  margin-top: 0;
+}
+
+.sanctuary-paper-counter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.3rem;
+  margin-top: 0.25rem;
+  font-family: var(--font-dossier);
+  font-size: 0.75rem;
+  color: var(--sanctuary-paper-ink, #1b1813);
+  opacity: 0.78;
+}
+
+.sanctuary-paper-counter.sanctuary-paper-hint {
+  justify-content: flex-start;
+}
+
+.sanctuary-paper-counter[data-near-limit='true'] {
+  font-weight: 700;
+  color: var(--sanctuary-paper-accent, #8f1027);
+  opacity: 1;
+}
+
+.sanctuary-paper-tag {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: center;
+  padding-left: 0.6rem;
+  font-family: var(--font-dossier);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--sanctuary-paper-accent, #8f1027);
+  border: 2px solid rgb(0 0 0 / 0.7);
+  animation: sanctuary-paper-tag-arrive 240ms var(--ease-snap) both;
+}
+
+.sanctuary-paper-tag-remove {
+  display: inline-flex;
+  min-width: 44px;
+  min-height: 44px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  color: var(--sanctuary-paper-ink, #1b1813);
+}
+
+.sanctuary-paper-tag-remove:hover {
+  background: rgb(0 0 0 / 0.12);
+}
+
+.sanctuary-paper-tag-remove[aria-disabled='true'] {
+  opacity: 0.5;
+}
+
+.sanctuary-rest-rule {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  background: var(--color-void-surface);
+  border: 2px solid var(--color-ink-line);
+  border-left: 5px solid var(--sanctuary-lamp-light, #e8b565);
+}
+
+.sanctuary-rest-rule > svg {
+  color: var(--sanctuary-lamp-light, #e8b565);
+}
+
+.sanctuary-exposure-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  letter-spacing: 0.04em;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.sanctuary-exposure-summary[data-exposure-summary='watched'] {
+  color: var(--sanctuary-lamp-light, #e8b565);
+}
+
+.sanctuary-exposure-summary[data-exposure-summary='conspicuous'] {
+  color: var(--color-blood-accent-text);
+}
+
+.sanctuary-blueprint-sheet {
+  padding: 0.9rem;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 19px, rgb(127 178 204 / 0.14) 19px 20px),
+    repeating-linear-gradient(90deg, transparent 0 19px, rgb(127 178 204 / 0.14) 19px 20px),
+    #0e1d28;
+  border: 2px solid #3d6379;
+  box-shadow: 6px 6px 0 0 #000;
+  animation: sanctuary-blueprint-unroll 520ms var(--ease-snap) both;
+  transform-origin: top center;
+}
+
+.sanctuary-blueprint-drawing {
+  display: block;
+  width: 100%;
+  height: auto;
+  fill: none;
+  stroke: #7fb2cc;
+  stroke-width: 1.4;
+}
+
+.sanctuary-blueprint-dashed {
+  stroke-dasharray: 5 6;
+  opacity: 0.7;
+}
+
+.sanctuary-blueprint-caption {
+  margin-top: 0.5rem;
+  font-family: var(--font-dossier);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #9cc7dd;
+}
+
+.sanctuary-great-work-requirement {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.7rem 0.85rem;
+  border: 2px dashed var(--color-ink-line);
+}
+
+.sanctuary-great-work-requirement > svg {
+  color: var(--color-paper-muted);
+}
+
+.sanctuary-anchor-photograph {
+  width: min(100%, 14rem);
+  padding: 0.6rem 0.6rem 0.5rem;
+  color: var(--sanctuary-paper-ink, #1b1813);
+  background: var(--color-aged-paper);
+  border: 2px solid #000;
+  box-shadow: 6px 6px 0 0 #000;
+  transform: rotate(var(--photograph-tilt, -2deg));
+  animation: sanctuary-photograph-settle 620ms var(--ease-snap) both;
+}
+
+.sanctuary-anchor-portrait {
+  display: block;
+  width: 100%;
+  height: auto;
+  fill: #3a3128;
+  background: linear-gradient(160deg, #b9ad98, #8d8371);
+  border: 2px solid rgb(0 0 0 / 0.7);
+}
+
+.sanctuary-anchor-photograph[data-empty='true'] .sanctuary-anchor-portrait {
+  background: rgb(0 0 0 / 0.08);
+  border-style: dashed;
+}
+
+.sanctuary-anchor-portrait-empty {
+  stroke: rgb(27 24 19 / 0.35);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 5;
+}
+
+.sanctuary-anchor-caption {
+  margin-top: 0.45rem;
+  font-family: var(--font-dossier);
+  font-size: 0.75rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+@keyframes sanctuary-rain-fall {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(-26px, 134px);
+  }
+}
+
+@keyframes sanctuary-card-blind-light-crossing {
+  0% {
+    opacity: 0;
+    transform: translateX(-32%);
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.75;
+    transform: translateX(14%);
+  }
+}
+
+@keyframes sanctuary-light-passing-car {
+  0% {
+    opacity: 0;
+    translate: 0 0;
+  }
+  18% {
+    opacity: 1;
+  }
+  82% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    translate: 250vw 0;
+  }
+}
+
+@keyframes sanctuary-light-moon-drift {
+  0% {
+    opacity: 0;
+    translate: 0 0;
+  }
+  40% {
+    opacity: 0.85;
+  }
+  70% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0;
+    translate: 9vw 3vh;
+  }
+}
+
+@keyframes sanctuary-light-distant-lightning {
+  0% {
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 0.15;
+  }
+  46% {
+    opacity: 0.9;
+  }
+  64% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes sanctuary-dust-rising {
+  0% {
+    opacity: 0;
+    translate: 0 0;
+  }
+  15% {
+    opacity: 0.55;
+  }
+  85% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0;
+    translate: 34px -120px;
+  }
+}
+
+@keyframes sanctuary-dust-sideways {
+  0% {
+    opacity: 0.1;
+    translate: 0 0;
+  }
+  50% {
+    opacity: 0.6;
+    translate: 70px 18px;
+  }
+  100% {
+    opacity: 0.1;
+    translate: 0 0;
+  }
+}
+
+@keyframes sanctuary-dust-swirling {
+  0% {
+    opacity: 0.15;
+    translate: 0 0;
+  }
+  25% {
+    opacity: 0.55;
+    translate: 26px -30px;
+  }
+  50% {
+    opacity: 0.3;
+    translate: 52px 0;
+  }
+  75% {
+    opacity: 0.55;
+    translate: 26px 30px;
+  }
+  100% {
+    opacity: 0.15;
+    translate: 0 0;
+  }
+}
+
+@keyframes sanctuary-lamp-flickering-ignition {
+  0% {
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.8;
+  }
+  20% {
+    opacity: 0.1;
+  }
+  38% {
+    opacity: 0.9;
+  }
+  46% {
+    opacity: 0.3;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes sanctuary-lamp-slow-warm-ignition {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes sanctuary-lamp-double-blink-ignition {
+  0% {
+    opacity: 0;
+  }
+  18% {
+    opacity: 1;
+  }
+  32% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes sanctuary-funds-ink-pulse {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.14);
+    color: #8f1027;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes sanctuary-away-notice-lock {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) scaleY(0.8);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(2px) scaleY(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes sanctuary-section-marker-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes sanctuary-section-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes sanctuary-drawing-rain-fall {
+  from {
+    opacity: 0.9;
+    transform: translate(1px, -6px);
+  }
+  to {
+    opacity: 0.2;
+    transform: translate(-2px, 8px);
+  }
+}
+
+@keyframes sanctuary-darkroom-bulb-breathe {
+  from {
+    opacity: 0.65;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes sanctuary-upgrade-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes sanctuary-scaffold-piece-arrive {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes sanctuary-work-hammering {
+  0% {
+    transform: rotate(-38deg);
+  }
+  45% {
+    transform: rotate(-38deg);
+  }
+  62% {
+    transform: rotate(26deg);
+  }
+  100% {
+    transform: rotate(-38deg);
+  }
+}
+
+@keyframes sanctuary-work-sawing {
+  from {
+    transform: translate(-12px, 6px) rotate(18deg);
+  }
+  to {
+    transform: translate(10px, 6px) rotate(18deg);
+  }
+}
+
+@keyframes sanctuary-work-impact-sparks {
+  0% {
+    opacity: 0;
+  }
+  62% {
+    opacity: 1;
+  }
+  78% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes sanctuary-work-falling-sawdust {
+  0% {
+    opacity: 0.9;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(34px);
+  }
+}
+
+@keyframes sanctuary-work-welding-sparks {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  33% {
+    opacity: 0.2;
+    transform: translate(3px, 4px);
+  }
+  66% {
+    opacity: 1;
+    transform: translate(-2px, 7px);
+  }
+  100% {
+    opacity: 0.3;
+    transform: translate(2px, 2px);
+  }
+}
+
+@keyframes sanctuary-construction-stage-raise {
+  from {
+    transform: scaleY(0.2);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes sanctuary-paid-stamp-slam {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--paid-stamp-tilt, -8deg)) scale(2.4);
+  }
+  60% {
+    opacity: 1;
+    transform: rotate(var(--paid-stamp-tilt, -8deg)) scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(var(--paid-stamp-tilt, -8deg)) scale(1);
+  }
+}
+
+@keyframes sanctuary-paid-stamp-roll {
+  0% {
+    opacity: 0;
+    transform: rotate(calc(var(--paid-stamp-tilt, -8deg) - 40deg)) translateX(-40px) scale(1.3);
+  }
+  70% {
+    opacity: 1;
+    transform: rotate(calc(var(--paid-stamp-tilt, -8deg) + 5deg)) translateX(2px) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(var(--paid-stamp-tilt, -8deg));
+  }
+}
+
+@keyframes sanctuary-paid-stamp-double {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--paid-stamp-tilt, -8deg)) scale(1.8);
+  }
+  30% {
+    opacity: 0.6;
+    transform: rotate(var(--paid-stamp-tilt, -8deg)) scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: rotate(var(--paid-stamp-tilt, -8deg)) scale(1.5);
+  }
+  80% {
+    opacity: 1;
+    transform: rotate(var(--paid-stamp-tilt, -8deg)) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(var(--paid-stamp-tilt, -8deg)) scale(1);
+  }
+}
+
+@keyframes sanctuary-pin-straight-drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-26px);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(3px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes sanctuary-pin-twisting-push {
+  0% {
+    opacity: 0;
+    transform: translateY(-16px) rotate(-90deg) scale(1.5);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes sanctuary-pin-hammered-twice {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-6px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  80% {
+    transform: translateY(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes sanctuary-note-editor-unfold {
+  from {
+    opacity: 0;
+    transform: translateY(10px) rotate(0.8deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes sanctuary-autosave-spinner-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes sanctuary-paper-tag-arrive {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes sanctuary-blueprint-unroll {
+  from {
+    opacity: 0;
+    transform: scaleY(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes sanctuary-photograph-settle {
+  0% {
+    opacity: 0;
+    transform: rotate(calc(var(--photograph-tilt, -2deg) + 9deg)) translateY(-18px);
+  }
+  65% {
+    opacity: 1;
+    transform: rotate(calc(var(--photograph-tilt, -2deg) - 2deg)) translateY(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(var(--photograph-tilt, -2deg));
+  }
+}
+
+:root[data-module-theme='sanctuary'] .belongings-board {
+  --belongings-container-surface: linear-gradient(180deg, var(--sanctuary-wood), var(--sanctuary-wood-dark));
+  --belongings-container-edge: var(--sanctuary-wood-edge);
+  --belongings-container-accent: var(--sanctuary-lamp-light);
+}
+
+:root[data-module-theme='sanctuary'] .belongings-container[data-placement='home_shelf'] {
+  background:
+    repeating-linear-gradient(180deg, transparent 0 5.4rem, rgb(0 0 0 / 0.6) 5.4rem calc(5.4rem + 6px)),
+    repeating-linear-gradient(90deg, rgb(0 0 0 / 0.16) 0 2px, transparent 2px 46px),
+    linear-gradient(180deg, var(--sanctuary-wood), var(--sanctuary-wood-dark));
+}
+
+:root[data-module-theme='sanctuary'] .belongings-container[data-placement='home_trunk'] {
+  background:
+    linear-gradient(90deg, #0d0906 0 8px, transparent 8px calc(100% - 8px), #0d0906 calc(100% - 8px)),
+    repeating-linear-gradient(180deg, rgb(0 0 0 / 0.22) 0 2px, transparent 2px 30px),
+    linear-gradient(180deg, var(--sanctuary-wood), var(--sanctuary-wood-dark));
+}
+
+:root[data-module-theme='sanctuary'] .belongings-container[data-placement='at_hand'],
+:root[data-module-theme='sanctuary'] .belongings-container[data-placement='in_bag'] {
+  border-color: var(--sanctuary-lamp-light);
+  background:
+    repeating-linear-gradient(45deg, rgb(232 181 101 / 0.04) 0 2px, transparent 2px 7px),
+    var(--color-void-surface);
+}

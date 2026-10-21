@@ -1,0 +1,4 @@
+from the_void_files.application_factory import create_application
+from the_void_files.service_settings import read_service_settings_from_environment
+
+application = create_application(service_settings=read_service_settings_from_environment())

@@ -1,0 +1,95 @@
+{
+  "supplement_format_version": 1,
+  "whisper_identifier": "lighthouse_counts_one_more",
+  "lost_voice": {
+    "placeholder_text": "{{voz_perdida}}",
+    "anchor_person_text": "la voz de {{ancla_nombre}}",
+    "uprooted_investigator_text": "la propia voz de {{nombre}}, más joven, como sonaba en las grabaciones viejas"
+  },
+  "plan_conditions": [
+    {
+      "kind_name": "renata_is_present",
+      "priority_number": 20,
+      "pattern_source": "(renata|la mujer|ella)\\b.*\\b(esta|delante|presente|cerca|conmigo|mira|acompana)",
+      "evaluation_name": "person_is_present",
+      "person_identifier": "renata_oquendo",
+      "satisfying_branch_conditions": [],
+      "negation_inverting_pattern_source": null,
+      "unmet_reason_text": "la mujer de la libreta no está aquí.",
+      "unmet_reason_when_negated_text": "la mujer de la libreta está delante, mirando."
+    },
+    {
+      "kind_name": "boatman_waits",
+      "priority_number": 30,
+      "pattern_source": "lanchero\\b.*\\b(espera|sigue|esta|aguarda)",
+      "evaluation_name": "any_branch_condition_is_met",
+      "person_identifier": null,
+      "satisfying_branch_conditions": [
+        {
+          "required_lived_experience_flag_names": [
+            "boatman_was_paid"
+          ],
+          "forbidden_lived_experience_flag_names": [],
+          "required_interactive_piece_statuses": [],
+          "minimum_relationship_levels": [],
+          "required_active_condition_identifiers": [],
+          "minimum_serious_wound_count": 0
+        },
+        {
+          "required_lived_experience_flag_names": [],
+          "forbidden_lived_experience_flag_names": [],
+          "required_interactive_piece_statuses": [],
+          "minimum_relationship_levels": [
+            {
+              "person_identifier": "punta_animas_boatman",
+              "direction_name": "toward_investigator_as_perceived",
+              "minimum_level": 4
+            }
+          ],
+          "required_active_condition_identifiers": [],
+          "minimum_serious_wound_count": 0
+        }
+      ],
+      "negation_inverting_pattern_source": null,
+      "unmet_reason_text": "nadie le dio al lanchero motivos para esperar.",
+      "unmet_reason_when_negated_text": "nadie le dio al lanchero motivos para esperar."
+    }
+  ],
+  "alive_ending_closing_entries": [
+    {
+      "condition": {
+        "required_lived_experience_flag_names": [
+          "knows_missing_name"
+        ],
+        "forbidden_lived_experience_flag_names": [],
+        "required_interactive_piece_statuses": [],
+        "minimum_relationship_levels": [],
+        "required_active_condition_identifiers": [],
+        "minimum_serious_wound_count": 0
+      },
+      "entry": {
+        "voice": "director_narration",
+        "marked_paragraphs": [
+          "En la casilla del origen, {{nombre}} escribe lo que sabe: que en 1987 embarcaron diez y se apuntaron nueve, y que la torre llevaba treinta y nueve años buscando el nombre que faltaba en su lista."
+        ]
+      }
+    },
+    {
+      "condition": {
+        "required_lived_experience_flag_names": [],
+        "forbidden_lived_experience_flag_names": [],
+        "required_interactive_piece_statuses": [],
+        "minimum_relationship_levels": [],
+        "required_active_condition_identifiers": [],
+        "minimum_serious_wound_count": 0
+      },
+      "entry": {
+        "voice": "inner_thought",
+        "thought_origin_name": "own_reasoning",
+        "marked_paragraphs": [
+          "En la casilla del origen del fenómeno, {{nombre}} escribe «no determinado» y no añade nada. Es la línea más honesta del informe y la que más va a molestar a quien lo lea."
+        ]
+      }
+    }
+  ]
+}

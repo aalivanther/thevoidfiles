@@ -1,0 +1,121 @@
+{
+  "copy_format_version": 1,
+  "method_clarification_paragraphs": [
+    "Hace falta el método para poder adjudicarlo: ¿qué hace exactamente {{nombre}}, con qué y contra qué? Ningún tiempo ha transcurrido."
+  ],
+  "describe_method_answer_text": "Describir el método",
+  "illogical_action_veto_paragraph_templates": [
+    "{{nombre}} no lleva encima nada parecido a «{mentioned_object_text}»: no figura entre sus pertenencias ni ha aparecido en esta escena. Ningún tiempo ha transcurrido."
+  ],
+  "rethink_action_answer_text": "Replantear la acción",
+  "insist_on_action_answer_text": "Intentarlo de todos modos",
+  "insisted_impossible_action_paragraph_template": "{{nombre}} se palpa los bolsillos, abre la bolsa, vuelve a palparse. No hay «{mentioned_object_text}». Nunca lo hubo. La noche le cobra el minuto perdido y sigue a lo suyo.",
+  "insisted_impossible_action_elapsed_minutes": 1,
+  "edited_suggestion_notice_text": "Demostración: el Director resuelve la sugerencia de origen. Los matices añadidos por escrito quedan anotados en el registro, pero todavía no cambian el resultado.",
+  "preparation_paragraph": "Antes de nada, {{nombre}} se toma un momento para prepararse: repasa el equipo pieza por pieza, ajusta las correas, comprueba la linterna contra la palma de la mano y guarda las bengalas donde la mano las encuentre a oscuras. No cambia el mundo. Cambia el pulso.",
+  "preparation_elapsed_minutes": 3,
+  "condition_was_met_paragraph_template": "«{action_text}» dependía de una condición —«{condition_text}»—, y la condición se cumple.",
+  "condition_was_unmet_paragraph_template": "«{action_text}» quedaba sujeto a una condición —«{condition_text}»— y la condición no se da: {reason_text} {{nombre}} lo deja sin hacer.",
+  "unrecognized_condition_paragraph_template": "Nada de lo que {{nombre}} percibe contradice «{condition_text}», así que sigue adelante.",
+  "action_out_of_reach_paragraph_template": "«{action_text}» ya no está al alcance desde aquí: pertenece a otro lugar, o a otro momento de la noche. {{nombre}} lo descarta.",
+  "action_already_done_paragraph_template": "«{action_text}»: eso ya está hecho, y repetirlo no va a enseñar nada nuevo. {{nombre}} no pierde tiempo en ello.",
+  "action_without_method_inside_plan_paragraph_template": "«{action_text}» no dice cómo ni con qué. Sin método no hay nada que adjudicar, y ese paso se queda en intención.",
+  "unaffordable_cost_paragraph_template": "«{action_text}» pedía un recurso que {{nombre}} ya no tiene. La mano vuelve vacía del bolsillo.",
+  "leftover_steps_paragraph_template": "No todo cupo en este tramo de la noche. Quedó sin hacer: {leftover_action_texts}. {{nombre}} tendrá que decidirlo de nuevo, con lo que ahora sabe.",
+  "leftover_action_text_quote_template": "«{action_text}»",
+  "leftover_action_text_separator": ", ",
+  "scene_changed_mid_plan_paragraph": "El lugar ha cambiado, y con él lo que está al alcance. Lo que quedaba del plan se pensó para otro sitio.",
+  "plan_continuation": {
+    "first_paragraph_template": "De lo que {{nombre}} se propuso, en este tramo {executed_clause}{skipped_clause}. {pending_clause}. El siguiente: «{next_action_text}».",
+    "executed_clause_for_single_step": "cupo un paso",
+    "executed_clause_for_several_steps_template": "cupieron {step_count} pasos",
+    "skipped_clause_for_single_step": " y uno quedó descartado por no darse las circunstancias",
+    "skipped_clause_for_several_steps_template": " y {step_count} quedaron descartados por no darse las circunstancias",
+    "pending_clause_for_single_step": "Queda un paso pendiente",
+    "pending_clause_for_several_steps_template": "Quedan {step_count} pasos pendientes",
+    "second_paragraph": "La escena ya no es la misma que cuando se trazó el plan. ¿Cómo sigue {{nombre}}?"
+  },
+  "continue_plan_answer_text": "Continuar con el plan",
+  "modify_plan_answer_text": "Modificar el plan",
+  "discard_plan_answer_text": "Abandonar el resto del plan",
+  "attempt_action_text": {
+    "combination_dials_template": "Probar el candado con la combinación {chosen_symbols}",
+    "chosen_symbol_separator": " · ",
+    "cipher_wheel_single_letter_template": "Fijar el disco de cifrado con un giro de {shift_positions} letra y leer",
+    "cipher_wheel_several_letters_template": "Fijar el disco de cifrado con un giro de {shift_positions} letras y leer",
+    "ordered_positions_template": "Encajar las placas en este orden: {ordered_visible_names}",
+    "ordered_visible_name_separator": ", "
+  },
+  "piece_out_of_reach_rule_text": "Desde aquí no se alcanza el mecanismo.",
+  "piece_out_of_reach_paragraph": "El mecanismo no está aquí. {{nombre}} tendría que volver a donde lo dejó.",
+  "piece_solved_in_prose_paragraph": "{{nombre}} no necesita tantear: lo dice, lo hace, y el mecanismo le da la razón.",
+  "free_text_patterns": {
+    "numeric_run_pattern_source": "\\b\\d{1,2}(?:\\s*(?:-|–|—|,|;|>|y luego|luego|despues|y|e)\\s*\\d{1,2})*\\b",
+    "measured_unit_after_number_pattern_source": "^\\s*(?:minutos?|horas?|metros?|pasos|peldanos?|escalones?|destellos?|veces|anos?|bengalas?|bolsas?|segundos?|de la (?:manana|madrugada|noche))\\b",
+    "strong_separator_pattern_source": "[.;\\n]+|,?\\s+(?:y\\s+)?(?:luego|despues|entonces|a continuacion|acto seguido|una vez (?:ahi|alli|alla|dentro|arriba|abajo|en el lugar))\\b,?",
+    "leading_connective_pattern_source": "^(?:[\\s,:]+|(?:y|e|pero|luego|despues|entonces|primero|por ultimo|finalmente|al final|hago|hare|realizo|ejecuto|elijo|escojo|voy con|sigo con|pasos?|opcion(?:es)?|sugerencias?|numeros?|numero)\\b)+",
+    "trailing_connective_pattern_source": "(?:[\\s,:]+|\\b(?:y|e|luego|despues|entonces|hago|hare|realizo|ejecuto|elijo|escojo|las?|los?|el|pasos?|opcion(?:es)?|acciones|accion|sugerencias?|numeros?|numero))+$",
+    "condition_clause_pattern_source": "(?:^|[\\s,])((?:pero\\s+)?(?:y\\s+)?(?:solo|solamente|unicamente)?\\s*(?:si|siempre que|siempre y cuando|mientras|a menos que|salvo que|salvo si|excepto si)\\b.+)$",
+    "action_without_method_pattern_source": "^\\s*(?:(?:lo|la|le|los|las)\\s+)?(?:ataco|atacar|ataca|ataque|peleo|pelear|lucho|luchar|disparo|disparar|golpeo|golpear|mato|matar|destruyo|destruir|lo resuelvo|resuelvo|gano|hago algo|actuo|uso mis poderes)(?:\\s+(?:ya|ahora|fuerte|con todo))?\\s*[.!¡]*\\s*$",
+    "object_never_carried_pattern_source": "\\b(pistola|revolver|rifle|escopeta|fusil|arma de fuego|granada|dinamita|explosivos?|lanzallamas|espada|katana|helicoptero|dron|telefono satelital|varita|hechizo|conjuro)\\b",
+    "preparation_pattern_source": "\\b(antes de llegar|preparandome|me preparo|prepararme|preparo (?:el|mi) equipo|reviso (?:el|mi) equipo|repaso (?:el|mi) equipo|compruebo (?:el|mi) equipo|respiro hondo|me mentalizo)\\b",
+    "mechanism_value_mention_pattern_sources": [
+      "candado",
+      "combinacion",
+      "dial(es)?",
+      "clave",
+      "codigo",
+      "cifras?",
+      "disco",
+      "corona"
+    ],
+    "mechanism_mention_pattern_sources": [
+      "candado",
+      "dial(es)?",
+      "combinacion",
+      "disco",
+      "corona",
+      "gir\\w*",
+      "descifr\\w*",
+      "placas?",
+      "ranuras?"
+    ],
+    "negating_conjunction_pattern_source": "\\b(a menos que|salvo que|salvo si|excepto si)\\b",
+    "negative_wording_pattern_source": "\\bsi no\\b|\\bno (?:esta|hay|queda|sobra|tengo|espera|sigue)\\b"
+  },
+  "plan_conditions": [
+    {
+      "kind_name": "time_remains",
+      "priority_number": 10,
+      "pattern_source": "(sobra|queda|hay|tengo|da|alcanza)\\w* (?:el |algo de |mas )?tiempo|antes del? (?:amanecer|alba)|no es tarde|me da tiempo",
+      "evaluation_name": "time_remains",
+      "person_identifier": null,
+      "satisfying_branch_conditions": [],
+      "negation_inverting_pattern_source": null,
+      "unmet_reason_text": "la noche ya no da más de sí. La pausa después del noveno destello ha empezado a alargarse.",
+      "unmet_reason_when_negated_text": "la noche ya no da más de sí. La pausa después del noveno destello ha empezado a alargarse."
+    },
+    {
+      "kind_name": "investigator_is_wounded",
+      "priority_number": 40,
+      "pattern_source": "\\b(herid\\w*|lastimad\\w*|sangr\\w*|herida grave)\\b",
+      "evaluation_name": "investigator_is_wounded",
+      "person_identifier": null,
+      "satisfying_branch_conditions": [],
+      "negation_inverting_pattern_source": null,
+      "unmet_reason_text": "{{nombre}} no tiene ninguna Herida Grave.",
+      "unmet_reason_when_negated_text": "{{nombre}} ya carga con una Herida Grave."
+    },
+    {
+      "kind_name": "scene_is_not_dangerous",
+      "priority_number": 50,
+      "pattern_source": "\\b(segur\\w*|sin peligro|hay peligro|tranquil\\w*|a salvo)\\b",
+      "evaluation_name": "scene_is_not_dangerous",
+      "person_identifier": null,
+      "satisfying_branch_conditions": [],
+      "negation_inverting_pattern_source": "\\bhay peligro\\b",
+      "unmet_reason_text": "este sitio es cualquier cosa menos seguro.",
+      "unmet_reason_when_negated_text": "este sitio es cualquier cosa menos seguro."
+    }
+  ]
+}

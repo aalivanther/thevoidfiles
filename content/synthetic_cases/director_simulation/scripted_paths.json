@@ -1,0 +1,69 @@
+{
+  "paths_format_version": 1,
+  "default_voice_identifier": "syntheticNarrator01",
+  "scripted_paths": [
+    {
+      "scripted_path_identifier": "lighthouse_containment_ending",
+      "whisper_identifier": "lighthouse_counts_one_more",
+      "expected_archive_outcome_kind_name": "archive_ended_alive",
+      "steps": [
+        { "step_kind_name": "suggested_action", "suggested_action_identifiers": ["walk_to_tower_foot"] },
+        { "step_kind_name": "suggested_action", "suggested_action_identifiers": ["inspect_service_door"] },
+        {
+          "step_kind_name": "interactive_piece_assistance",
+          "interactive_piece_identifier": "interactive_piece_0001",
+          "requested_level_name": "gentle"
+        },
+        {
+          "step_kind_name": "interactive_piece_attempt",
+          "interactive_piece_identifier": "interactive_piece_0001",
+          "submitted_value": { "widget_kind_name": "combination_dials", "chosen_symbols": ["1", "2", "3"] }
+        },
+        {
+          "step_kind_name": "interactive_piece_attempt",
+          "interactive_piece_identifier": "interactive_piece_0001",
+          "submitted_value": { "widget_kind_name": "combination_dials", "chosen_symbols": ["3", "1", "2"] }
+        },
+        { "step_kind_name": "suggested_action", "suggested_action_identifiers": ["take_shutter_plates"] },
+        { "step_kind_name": "suggested_action", "suggested_action_identifiers": ["climb_service_staircase"] },
+        { "step_kind_name": "suggested_action", "suggested_action_identifiers": ["mount_shutter_plates"] },
+        {
+          "step_kind_name": "interactive_piece_attempt",
+          "interactive_piece_identifier": "interactive_piece_0003",
+          "submitted_value": {
+            "widget_kind_name": "ordered_positions",
+            "ordered_piece_identifiers": [
+              "shutter_plate_a",
+              "shutter_plate_e",
+              "shutter_plate_c",
+              "shutter_plate_d",
+              "shutter_plate_b"
+            ]
+          }
+        },
+        { "step_kind_name": "suggested_action", "suggested_action_identifiers": ["sign_report_on_the_boat"] }
+      ]
+    },
+    {
+      "scripted_path_identifier": "lighthouse_death_on_the_gallery",
+      "whisper_identifier": "lighthouse_counts_one_more",
+      "expected_archive_outcome_kind_name": "chronicle_closed_by_death",
+      "steps": [
+        { "step_kind_name": "suggested_action", "suggested_action_identifiers": ["walk_to_tower_foot"] },
+        { "step_kind_name": "suggested_action", "suggested_action_identifiers": ["inspect_service_door"] },
+        {
+          "step_kind_name": "interactive_piece_attempt",
+          "interactive_piece_identifier": "interactive_piece_0001",
+          "submitted_value": { "widget_kind_name": "combination_dials", "chosen_symbols": ["3", "1", "2"] }
+        },
+        { "step_kind_name": "suggested_action", "suggested_action_identifiers": ["climb_service_staircase"] },
+        { "step_kind_name": "suggested_action", "suggested_action_identifiers": ["step_out_to_gallery"] },
+        { "step_kind_name": "suggested_action", "suggested_action_identifiers": ["face_tenth_flash_on_gallery"] },
+        {
+          "step_kind_name": "suggested_action",
+          "suggested_action_identifiers": ["face_tenth_flash_on_gallery_again", "reach_optic_over_bent_railing"]
+        }
+      ]
+    }
+  ]
+}

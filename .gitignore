@@ -1,0 +1,30 @@
+# Qué no viaja al repositorio de The Void Files. Todo esto se regenera o es una partida local; en disco se queda.
+
+# --- Partida y datos locales (el README pide no versionar data/) ---
+/data/
+*.sqlite3
+*.sqlite3-shm
+*.sqlite3-wal
+
+# --- Entornos y cachés de Python ---
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# --- Dependencias y salidas de build del frontend y de las pruebas E2E ---
+node_modules/
+/frontend/dist/
+# Capturas y reportes de las corridas E2E (incluyen rutas de la máquina local).
+/scripts/e2e/artifacts/
+
+# --- Sistema ---
+.DS_Store
+*.log
+
+# --- Instrucciones, briefs y auditorías para agentes de IA: se quedan en disco, fuera del repositorio público ---
+CLAUDE.md
+AGENTS.md
+/.claude/
+/docs/

@@ -1,0 +1,1733 @@
+:root[data-module-theme='factions'] {
+  --factions-lamp-glow: 226 196 132;
+  --factions-thread-color: var(--color-blood-accent);
+  --factions-paper-ink: #1b1813;
+  --factions-paper-accent: #8f1027;
+  --factions-paper-faded-ink: #4a4236;
+}
+
+:root[data-module-theme='factions'] .presentation-card-backdrop {
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 42%, rgb(var(--factions-lamp-glow) / 0.13), transparent 70%),
+    #121114;
+}
+
+:root[data-module-theme='factions'] .presentation-card-backdrop::before {
+  inset: 0;
+  background:
+    radial-gradient(circle at center, rgb(232 230 225 / 0.2) 1.3px, transparent 1.8px) 0 0 / 34px 34px,
+    linear-gradient(23deg, transparent 49.6%, rgb(200 30 58 / 0.75) 49.6% 50.1%, transparent 50.1%),
+    linear-gradient(-14deg, transparent 61.7%, rgb(200 30 58 / 0.6) 61.7% 62.1%, transparent 62.1%),
+    linear-gradient(74deg, transparent 33.8%, rgb(200 30 58 / 0.5) 33.8% 34.2%, transparent 34.2%);
+  animation: factions-presentation-threads-appear 900ms var(--ease-snap) both;
+  animation-delay: var(--presentation-delay);
+}
+
+:root[data-module-theme='factions'] .presentation-card-backdrop::after {
+  top: -20%;
+  left: 50%;
+  width: 90vmax;
+  height: 120%;
+  translate: -50% 0;
+  transform-origin: 50% 0;
+  background: conic-gradient(from 160deg at 50% 0%, transparent 0deg, rgb(var(--factions-lamp-glow) / 0.16) 20deg, transparent 40deg);
+  animation: factions-hanging-lamp-sway 5.5s ease-in-out infinite alternate;
+}
+
+:root[data-module-theme='factions'] .presentation-card-upper-band {
+  background: var(--color-aged-paper);
+  border-bottom: 2px solid #000;
+  box-shadow: 0 6px 0 0 var(--color-blood-accent);
+}
+
+:root[data-module-theme='factions'] .presentation-card-lower-band {
+  background: var(--color-void-elevated);
+  border-top: 2px solid var(--color-aged-paper);
+}
+
+:root[data-module-theme='factions'] .module-atmosphere-layer::before {
+  inset: 0;
+  opacity: 0.55;
+  background:
+    radial-gradient(circle at center, rgb(232 230 225 / 0.14) 1.1px, transparent 1.6px) 0 0 / 42px 42px,
+    linear-gradient(31deg, transparent 49.85%, rgb(200 30 58 / 0.16) 49.85% 50.05%, transparent 50.05%),
+    linear-gradient(-19deg, transparent 69.85%, rgb(200 30 58 / 0.12) 69.85% 70.05%, transparent 70.05%);
+}
+
+:root[data-module-theme='factions'] .module-atmosphere-layer::after {
+  top: -10%;
+  left: 50%;
+  width: 120vmax;
+  height: 120%;
+  translate: -50% 0;
+  opacity: 1;
+  transform-origin: 50% 0;
+  background: conic-gradient(from 158deg at 50% 0%, transparent 0deg, rgb(var(--factions-lamp-glow) / 0.075) 22deg, transparent 44deg);
+  animation: factions-hanging-lamp-sway 11s ease-in-out infinite alternate;
+}
+
+.factions-board {
+  position: relative;
+  overflow-x: clip;
+}
+
+.factions-board-spotlight {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(ellipse 28% 60% at 50% 30%, rgb(226 196 132 / 0.2), rgb(226 196 132 / 0.05) 55%, transparent 72%);
+}
+
+.factions-board-spotlight[data-spotlight-variant='sweeping_left_to_right'] {
+  animation: factions-spotlight-sweep-rightward 1100ms ease-in-out both;
+}
+
+.factions-board-spotlight[data-spotlight-variant='returning_right_to_left'] {
+  animation: factions-spotlight-sweep-leftward 1100ms ease-in-out both;
+}
+
+.factions-board-spotlight[data-spotlight-variant='descending_diagonal'] {
+  animation: factions-spotlight-descend-diagonally 1200ms ease-in-out both;
+}
+
+.factions-board-spotlight[data-spotlight-variant='widening_lamp_cone'] {
+  animation: factions-spotlight-widen 1000ms ease-out both;
+}
+
+.factions-board > *:not(.factions-board-spotlight) {
+  position: relative;
+  z-index: 1;
+}
+
+.factions-section-tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0.5rem 0.7rem;
+  font-family: var(--font-dossier);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  color: var(--color-paper-muted);
+  background: var(--color-void-surface);
+  border: 2px solid var(--color-ink-line);
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+  transition:
+    color 130ms var(--ease-snap),
+    border-color 130ms var(--ease-snap),
+    translate 130ms var(--ease-snap),
+    background 130ms var(--ease-snap);
+}
+
+.factions-section-tab:hover {
+  color: var(--color-paper-text);
+  border-color: var(--color-paper-muted);
+  translate: 0 -2px;
+}
+
+.factions-section-tab:active {
+  scale: 0.97;
+}
+
+.factions-section-tab:focus-visible {
+  clip-path: none;
+}
+
+.factions-section-tab[data-state='active'] {
+  color: var(--factions-paper-ink, #1b1813);
+  background: var(--color-aged-paper);
+  border-color: #000;
+}
+
+.factions-section-tab[data-state='active']::after {
+  content: '';
+  position: absolute;
+  left: 0.6rem;
+  right: 1.2rem;
+  bottom: 3px;
+  height: 3px;
+  background: #8f1027;
+  transform-origin: 0 50%;
+  animation: factions-underline-thread-trace 320ms var(--ease-snap) both;
+}
+
+.factions-section-tab-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.35rem;
+  height: 1.35rem;
+  padding: 0 0.25rem;
+  font-size: 0.75rem;
+  color: var(--color-paper-text);
+  background: var(--color-void-base);
+  border: 1px solid var(--color-ink-line);
+}
+
+.factions-section-heading {
+  font-family: var(--font-dossier);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-paper-text);
+  padding-bottom: 0.3rem;
+  border-bottom: 2px solid var(--color-ink-line);
+}
+
+.factions-plaque {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 0;
+  min-height: 84px;
+  padding: 0.7rem 0.85rem;
+  color: var(--color-aged-paper);
+  background:
+    linear-gradient(135deg, rgb(232 230 225 / 0.06), transparent 40%),
+    var(--color-void-elevated);
+  border: 2px solid var(--color-ink-line);
+  box-shadow: var(--comic-shadow-offset) var(--comic-shadow-offset) 0 0 #000;
+  rotate: var(--plaque-rest-tilt, 0deg);
+  animation: factions-plaque-set-down 380ms var(--ease-snap) both;
+  animation-delay: calc(var(--entrance-order, 0) * 90ms);
+  transition:
+    border-color 130ms var(--ease-snap),
+    translate 130ms var(--ease-snap),
+    rotate 130ms var(--ease-snap);
+}
+
+.factions-plaque .display-title {
+  color: var(--color-paper-text);
+}
+
+.factions-plaque:hover {
+  translate: 0 -2px;
+  border-color: var(--color-paper-muted);
+}
+
+.factions-plaque:active {
+  scale: 0.98;
+}
+
+.factions-plaque[data-state='active'] {
+  rotate: 0deg;
+  border-color: var(--color-aged-paper);
+}
+
+.factions-plaque[data-state='active']::before {
+  content: '';
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  translate: -50% 0;
+  background: var(--color-blood-accent);
+  border: 2px solid #000;
+  border-radius: 50%;
+}
+
+.factions-plaque[data-state='active']::after {
+  display: none;
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 2px;
+  height: 1.5rem;
+  background: var(--color-blood-accent);
+  transform-origin: 50% 0;
+  animation: factions-hanging-thread-drop 360ms var(--ease-snap) both;
+}
+
+@media (min-width: 640px) {
+  .factions-plaque[data-state='active']::after {
+    display: block;
+  }
+}
+
+.faction-emblem {
+  --emblem-ground: var(--color-void-elevated);
+  display: block;
+  overflow: visible;
+  color: inherit;
+}
+
+.faction-emblem-stroke {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+}
+
+.faction-emblem-heavy-stroke {
+  stroke-width: 5;
+}
+
+.faction-emblem-ground-fill {
+  fill: var(--emblem-ground);
+}
+
+.faction-emblem-solid {
+  fill: currentColor;
+}
+
+.faction-emblem[data-engraving-variant='stroke_by_stroke'] .faction-emblem-stroke {
+  animation: faction-emblem-stroke-draw 520ms ease-out backwards;
+  animation-delay: calc(var(--emblem-stroke-order, 0) * 130ms + 120ms);
+}
+
+.faction-emblem[data-engraving-variant='struck_plate'] {
+  animation: faction-emblem-struck-plate 460ms var(--ease-snap) backwards;
+}
+
+.faction-emblem[data-engraving-variant='flickering_burn'] .faction-emblem-stroke,
+.faction-emblem[data-engraving-variant='flickering_burn'] .faction-emblem-solid {
+  animation: faction-emblem-flickering-burn 700ms steps(1, end) backwards;
+  animation-delay: calc(var(--emblem-stroke-order, 0) * 70ms);
+}
+
+.faction-emblem[data-engraving-variant='outward_from_center'] .faction-emblem-stroke {
+  animation: faction-emblem-stroke-draw 640ms ease-in-out backwards;
+  animation-delay: calc((6 - var(--emblem-stroke-order, 0)) * 90ms);
+}
+
+.factions-case-card {
+  position: relative;
+}
+
+.factions-case-card[data-slide-variant='slid_from_left'] {
+  animation: factions-case-card-slide-from-left 420ms var(--ease-snap) both;
+}
+
+.factions-case-card[data-slide-variant='slid_from_right'] {
+  animation: factions-case-card-slide-from-right 420ms var(--ease-snap) both;
+}
+
+.factions-case-card[data-slide-variant='dropped_from_above'] {
+  animation: factions-case-card-drop-from-above 400ms var(--ease-snap) both;
+}
+
+.factions-case-card[data-slide-variant='spun_into_place'] {
+  animation: factions-case-card-spin-into-place 460ms var(--ease-snap) both;
+}
+
+.factions-dated-thread {
+  position: relative;
+  display: grid;
+  gap: 0.85rem;
+  padding-left: 1.6rem;
+}
+
+.factions-dated-thread::before {
+  content: '';
+  position: absolute;
+  top: 0.4rem;
+  bottom: 0.4rem;
+  left: 0.45rem;
+  width: 2px;
+  background: var(--color-blood-accent);
+  transform-origin: 50% 0;
+  animation: factions-hanging-thread-drop 700ms ease-out both;
+}
+
+.factions-dated-thread-entry {
+  position: relative;
+  min-width: 0;
+}
+
+.factions-dated-thread-pin {
+  position: absolute;
+  top: 0.05rem;
+  left: -1.6rem;
+  color: var(--color-paper-text);
+  background: var(--color-void-surface);
+}
+
+.factions-posture-signal {
+  min-width: 0;
+  padding: 0.6rem 0.75rem;
+  background: var(--color-void-base);
+  border: 2px solid var(--color-ink-line);
+  border-left-width: 6px;
+}
+
+.factions-posture-signal[data-signal-kind='trust'] {
+  border-left-color: var(--color-aged-paper);
+}
+
+.factions-posture-signal[data-signal-kind='suspicion'] {
+  border-left-color: var(--color-blood-accent);
+  border-left-style: double;
+}
+
+.factions-posture-signal-kind {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-dossier);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.factions-posture-signal[data-signal-kind='suspicion'] .factions-posture-signal-kind {
+  color: var(--color-blood-accent-text);
+}
+
+.factions-undiscovered-field {
+  min-width: 0;
+  padding: 0.65rem 0.75rem;
+  border: 2px dashed var(--color-ink-line);
+  background: repeating-linear-gradient(135deg, transparent 0 9px, rgb(232 230 225 / 0.025) 9px 10px);
+}
+
+.factions-undiscovered-field[data-is-discovered='true'] {
+  border-style: solid;
+  background: var(--color-void-base);
+}
+
+.factions-undiscovered-stamp {
+  display: inline-block;
+  padding: 0.12rem 0.5rem 0.05rem;
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  letter-spacing: 0.1em;
+  line-height: 1.3;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-blood-accent-text);
+  border: 2px solid var(--color-blood-accent-text);
+  rotate: var(--stamp-rest-tilt, -3deg);
+  animation-delay: calc(var(--entrance-order, 0) * 110ms + 140ms);
+}
+
+.factions-undiscovered-stamp[data-printed-on-paper='true'] {
+  color: #8f1027;
+  border-color: #8f1027;
+}
+
+.factions-undiscovered-stamp[data-stamp-fall-variant='straight_slam'] {
+  animation-name: factions-stamp-straight-slam;
+  animation-duration: 340ms;
+  animation-timing-function: var(--ease-snap);
+  animation-fill-mode: both;
+}
+
+.factions-undiscovered-stamp[data-stamp-fall-variant='rocking_settle'] {
+  animation-name: factions-stamp-rocking-settle;
+  animation-duration: 480ms;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
+
+.factions-undiscovered-stamp[data-stamp-fall-variant='pressed_twice'] {
+  animation-name: factions-stamp-pressed-twice;
+  animation-duration: 520ms;
+  animation-timing-function: var(--ease-snap);
+  animation-fill-mode: both;
+}
+
+.factions-undiscovered-stamp[data-stamp-fall-variant='dragged_smear'] {
+  animation-name: factions-stamp-dragged-smear;
+  animation-duration: 420ms;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
+
+.factions-paper-label {
+  font-family: var(--font-dossier);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #4a4236;
+}
+
+.factions-bond-contract {
+  color: #1b1813;
+  rotate: var(--contract-rest-tilt, 0deg);
+  animation: factions-case-card-drop-from-above 420ms var(--ease-snap) both;
+  animation-delay: calc(var(--entrance-order, 0) * 110ms);
+}
+
+.factions-bond-contract[data-is-current-bond='false'] {
+  box-shadow: 3px 3px 0 0 #000;
+  background:
+    repeating-linear-gradient(135deg, transparent 0 11px, rgb(27 24 19 / 0.06) 11px 12px),
+    #b9b09b;
+}
+
+.factions-bond-contract[data-is-current-bond='true'] {
+  rotate: 0deg;
+  outline: 3px solid var(--color-blood-accent);
+  outline-offset: 3px;
+}
+
+.factions-denial-protocol {
+  color: var(--color-paper-text);
+  background:
+    repeating-linear-gradient(135deg, rgb(200 30 58 / 0.14) 0 12px, transparent 12px 24px),
+    var(--color-void-base);
+  border: 2px solid var(--color-blood-accent);
+  box-shadow: var(--comic-shadow-offset) var(--comic-shadow-offset) 0 0 #000;
+  animation: factions-case-card-slide-from-left 420ms var(--ease-snap) both;
+  animation-delay: 380ms;
+}
+
+.factions-denial-protocol h5 {
+  color: var(--color-blood-accent-text);
+}
+
+.factions-locked-scene {
+  background:
+    repeating-linear-gradient(90deg, transparent 0 22px, rgb(232 230 225 / 0.04) 22px 24px),
+    var(--color-void-surface);
+  border: 2px dashed var(--color-paper-muted);
+}
+
+.factions-locked-scene [aria-disabled='true'] {
+  color: var(--color-paper-muted);
+  cursor: not-allowed;
+}
+
+.factions-locked-scene[data-refusal-variant='sideways_shake'] {
+  animation: factions-locked-sideways-shake 420ms ease-in-out;
+}
+
+.factions-locked-scene[data-refusal-variant='heavy_drop'] {
+  animation: factions-locked-heavy-drop 460ms var(--ease-snap);
+}
+
+.factions-locked-scene[data-refusal-variant='latch_rattle'] {
+  animation: factions-locked-latch-rattle 500ms steps(2, end);
+}
+
+.factions-police-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 0;
+  min-height: 96px;
+  padding: 0.75rem 0.8rem;
+  color: #1b1813;
+  background:
+    repeating-linear-gradient(180deg, transparent 0 21px, rgb(27 24 19 / 0.08) 21px 22px),
+    var(--color-aged-paper);
+  border: 2px solid #000;
+  box-shadow: var(--comic-shadow-offset) var(--comic-shadow-offset) 0 0 #000;
+  rotate: var(--plaque-rest-tilt, 0deg);
+  animation: factions-plaque-set-down 380ms var(--ease-snap) both;
+  animation-delay: calc(var(--entrance-order, 0) * 90ms);
+  transition:
+    translate 130ms var(--ease-snap),
+    rotate 130ms var(--ease-snap),
+    box-shadow 130ms var(--ease-snap);
+}
+
+.factions-police-card:hover {
+  translate: -1px -3px;
+  box-shadow: 7px 7px 0 0 #000;
+}
+
+.factions-police-card:active {
+  scale: 0.98;
+}
+
+.factions-police-card:focus-visible {
+  outline-color: #8f1027;
+}
+
+.factions-police-card[data-state='active'] {
+  rotate: 0deg;
+  outline: 3px solid var(--color-blood-accent);
+  outline-offset: 3px;
+}
+
+.factions-police-card[data-state='active']::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: 1rem;
+  width: 13px;
+  height: 13px;
+  background: var(--color-blood-accent);
+  border: 2px solid #000;
+  border-radius: 50%;
+}
+
+.factions-police-card[data-state='active']::after {
+  display: none;
+  content: '';
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 50%;
+  width: 2px;
+  height: 1.2rem;
+  background: var(--color-blood-accent);
+  transform-origin: 50% 0;
+  animation: factions-hanging-thread-drop 360ms var(--ease-snap) both;
+}
+
+@media (min-width: 1024px) {
+  .factions-police-card[data-state='active']::after {
+    display: block;
+  }
+}
+
+.factions-photograph {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  width: 6rem;
+  padding: 4px 4px 12px;
+  background: #ece6d6;
+  border: 2px solid #000;
+  box-shadow: 3px 3px 0 0 #000;
+  rotate: var(--photograph-tilt, -2deg);
+}
+
+.factions-photograph[data-is-compact='true'] {
+  width: 3.6rem;
+  padding: 3px 3px 8px;
+}
+
+.factions-photograph-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.factions-photograph-ground {
+  fill: #6f6a5f;
+}
+
+.factions-photograph-silhouette {
+  fill: #141316;
+}
+
+.factions-photograph-clip {
+  position: absolute;
+  top: -14px;
+  right: 8px;
+  width: 14px;
+  height: 28px;
+  stroke: #8d8f96;
+  animation: factions-paper-clip-slide 380ms var(--ease-snap) both;
+  animation-delay: 220ms;
+}
+
+.factions-photograph[data-is-compact='true'] .factions-photograph-clip {
+  top: -11px;
+  right: 5px;
+  width: 11px;
+  height: 22px;
+}
+
+
+
+.factions-level-scale-legend-swatch {
+  background: repeating-linear-gradient(135deg, var(--color-void-base) 0 4px, rgb(217 207 184 / 0.28) 4px 6px);
+  border-color: var(--color-aged-paper);
+}
+
+.factions-level-scale-legend-swatch {
+  display: inline-block;
+  width: 1.4rem;
+  height: 0.8rem;
+  border-width: 1px;
+  border-style: solid;
+}
+
+
+
+.factions-vacant-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  padding: 0.9rem 0.4rem 0.7rem;
+  text-align: center;
+  border: 2px dashed var(--color-ink-line);
+  background: repeating-linear-gradient(135deg, transparent 0 9px, rgb(232 230 225 / 0.025) 9px 10px);
+}
+
+.factions-vacant-slot .factions-photograph {
+  opacity: 0.45;
+}
+
+.factions-vacant-slot .factions-photograph-silhouette {
+  fill: none;
+  stroke: #141316;
+  stroke-width: 3;
+  stroke-dasharray: 7 6;
+}
+
+.factions-requirement-number {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  color: #1b1813;
+  background: var(--color-aged-paper);
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0 0 #000;
+}
+
+.factions-mission-part {
+  min-width: 0;
+  padding: 0.65rem 0.75rem;
+  background: var(--color-void-base);
+  border: 2px solid var(--color-ink-line);
+}
+
+.factions-view-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-paper-muted);
+  background: var(--color-void-surface);
+  border: 2px solid var(--color-ink-line);
+  transition:
+    color 130ms var(--ease-snap),
+    border-color 130ms var(--ease-snap);
+}
+
+.factions-view-toggle:hover {
+  color: var(--color-paper-text);
+  border-color: var(--color-paper-muted);
+}
+
+.factions-view-toggle:active {
+  scale: 0.96;
+}
+
+.factions-view-toggle[data-state='on'] {
+  color: #1b1813;
+  background: var(--color-aged-paper);
+  border-color: #000;
+  text-decoration: underline;
+  text-decoration-color: #8f1027;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 4px;
+}
+
+.factions-network-board {
+  padding: 0.5rem;
+  background:
+    radial-gradient(circle at center, rgb(232 230 225 / 0.1) 1.1px, transparent 1.6px) 0 0 / 28px 28px,
+    radial-gradient(ellipse 70% 60% at 50% 45%, rgb(226 196 132 / 0.07), transparent 75%),
+    var(--color-void-surface);
+}
+
+.factions-thread-line {
+  fill: none;
+  stroke: var(--color-blood-accent);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.factions-thread[data-is-unconfirmed='true'] .factions-thread-line {
+  stroke: var(--color-paper-muted);
+  stroke-width: 2;
+  stroke-dasharray: 3 8;
+}
+
+.factions-thread-arrowhead {
+  fill: var(--color-blood-accent);
+}
+
+.factions-thread-arrowhead-unconfirmed {
+  fill: var(--color-paper-muted);
+}
+
+.factions-thread {
+  transition: opacity 200ms ease-out;
+}
+
+.factions-thread[data-touches-selected-node='false'] {
+  opacity: 0.4;
+}
+
+.factions-thread[data-touches-selected-node='true'] .factions-thread-line {
+  stroke-width: 3.5;
+}
+
+.factions-thread-label {
+  font-family: var(--font-dossier);
+  font-weight: 700;
+  fill: var(--color-paper-text);
+  stroke: var(--color-void-surface);
+  stroke-width: 5px;
+  stroke-linejoin: round;
+  paint-order: stroke;
+  animation: factions-thread-label-appear 300ms ease-out backwards;
+  animation-delay: calc(var(--thread-delay, 0ms) + 520ms);
+}
+
+[data-thread-trace-variant='traced_from_origin'] .factions-thread[data-is-unconfirmed='false'] .factions-thread-line {
+  animation: factions-thread-trace-from-origin 620ms ease-out backwards;
+  animation-delay: var(--thread-delay, 0ms);
+}
+
+[data-thread-trace-variant='traced_from_destination'] .factions-thread[data-is-unconfirmed='false'] .factions-thread-line {
+  animation: factions-thread-trace-from-destination 620ms ease-out backwards;
+  animation-delay: var(--thread-delay, 0ms);
+}
+
+[data-thread-trace-variant='pulled_taut'] .factions-thread[data-is-unconfirmed='false'] .factions-thread-line {
+  animation: factions-thread-pulled-taut 720ms var(--ease-snap) backwards;
+  animation-delay: var(--thread-delay, 0ms);
+}
+
+[data-thread-trace-variant='stitched_in_bursts'] .factions-thread[data-is-unconfirmed='false'] .factions-thread-line {
+  animation: factions-thread-trace-from-origin 760ms steps(6, end) backwards;
+  animation-delay: var(--thread-delay, 0ms);
+}
+
+.factions-thread[data-is-unconfirmed='true'] .factions-thread-line {
+  animation: factions-rumor-thread-flicker 900ms steps(1, end) backwards;
+  animation-delay: var(--thread-delay, 0ms);
+}
+
+.factions-network-node {
+  cursor: pointer;
+  outline: none;
+  animation: factions-network-node-pin-down 340ms var(--ease-snap) backwards;
+  animation-delay: calc(var(--entrance-order, 0) * 70ms);
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+
+.factions-network-node-focus-ring {
+  fill: none;
+  stroke: var(--color-blood-accent-text);
+  stroke-width: 2.5;
+  stroke-dasharray: 5 4;
+  opacity: 0;
+}
+
+.factions-network-node:focus-visible .factions-network-node-focus-ring {
+  opacity: 1;
+}
+
+.factions-network-node-shape {
+  fill: var(--color-void-elevated);
+  stroke: var(--color-paper-muted);
+  stroke-width: 2.5;
+  transition:
+    stroke 130ms var(--ease-snap),
+    stroke-width 130ms var(--ease-snap);
+}
+
+.factions-network-node[data-node-kind='contact'] .factions-network-node-shape {
+  fill: var(--color-aged-paper);
+  stroke: #000;
+}
+
+.factions-network-node[data-node-kind='investigator'] .factions-network-node-shape {
+  fill: var(--color-blood-accent);
+  stroke: #000;
+}
+
+.factions-network-node[data-node-kind='faction'] {
+  color: var(--color-aged-paper);
+}
+
+.factions-network-node-figure {
+  fill: #141316;
+}
+
+.factions-network-node[data-node-kind='investigator'] .factions-network-node-figure {
+  fill: var(--color-paper-text);
+}
+
+.factions-network-node-pin {
+  fill: var(--color-blood-accent);
+  stroke: #000;
+  stroke-width: 1.5;
+}
+
+.factions-network-node[data-node-kind='investigator'] .factions-network-node-pin {
+  fill: var(--color-aged-paper);
+}
+
+.factions-network-node:hover .factions-network-node-shape {
+  stroke: var(--color-paper-text);
+  stroke-width: 3.5;
+}
+
+.factions-network-node[data-is-selected='true'] .factions-network-node-shape {
+  stroke: var(--color-paper-text);
+  stroke-width: 5;
+}
+
+.factions-network-node-label {
+  font-family: var(--font-dossier);
+  font-weight: 700;
+  fill: var(--color-paper-text);
+  stroke: var(--color-void-surface);
+  stroke-width: 5px;
+  stroke-linejoin: round;
+  paint-order: stroke;
+}
+
+.factions-network-node[data-is-selected='true'] .factions-network-node-label {
+  fill: var(--color-blood-accent-text);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.factions-network-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.25rem;
+  padding: 0.6rem 0.4rem 0.3rem;
+  font-size: 0.75rem;
+  color: var(--color-paper-muted);
+  border-top: 2px solid var(--color-ink-line);
+}
+
+.factions-network-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.factions-network-legend-thread {
+  display: inline-block;
+  width: 2rem;
+  height: 0;
+  border-top: 3px solid var(--color-blood-accent);
+}
+
+.factions-network-legend-thread[data-is-unconfirmed='true'] {
+  border-top: 3px dotted var(--color-paper-muted);
+}
+
+.factions-network-list-entry {
+  display: block;
+  width: 100%;
+  min-height: 64px;
+  padding: 0.65rem 0.8rem;
+  text-align: left;
+  background: var(--color-void-surface);
+  border: 2px solid var(--color-ink-line);
+  border-left-width: 6px;
+  transition:
+    border-color 130ms var(--ease-snap),
+    translate 130ms var(--ease-snap);
+}
+
+.factions-network-list-entry:hover {
+  translate: 2px 0;
+  border-color: var(--color-paper-muted);
+}
+
+.factions-network-list-entry:active {
+  scale: 0.985;
+}
+
+.factions-network-list-entry[aria-pressed='true'] {
+  border-color: var(--color-paper-text);
+  border-left-color: var(--color-blood-accent);
+  background: var(--color-void-elevated);
+}
+
+.factions-network-detail {
+  animation: factions-case-card-slide-from-right 320ms var(--ease-snap) both;
+}
+
+.factions-thread-sentence {
+  padding-left: 0.6rem;
+  font-size: 0.9375rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  border-left: 3px solid var(--color-blood-accent);
+}
+
+.factions-thread-sentence[data-is-unconfirmed='true'] {
+  color: var(--color-paper-muted);
+  border-left: 3px dotted var(--color-paper-muted);
+}
+
+@keyframes factions-presentation-threads-appear {
+  from {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes factions-hanging-lamp-sway {
+  from {
+    transform: rotate(-7deg);
+  }
+  to {
+    transform: rotate(7deg);
+  }
+}
+
+@keyframes factions-spotlight-sweep-rightward {
+  0% {
+    opacity: 0;
+    transform: translateX(-70%);
+  }
+  25%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(70%);
+  }
+}
+
+@keyframes factions-spotlight-sweep-leftward {
+  0% {
+    opacity: 0;
+    transform: translateX(70%);
+  }
+  25%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-70%);
+  }
+}
+
+@keyframes factions-spotlight-descend-diagonally {
+  0% {
+    opacity: 0;
+    transform: translate(-55%, -30%);
+  }
+  30%,
+  65% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(45%, 35%);
+  }
+}
+
+@keyframes factions-spotlight-widen {
+  0% {
+    opacity: 0;
+    transform: scale(0.25, 0.6);
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.4, 1.3);
+  }
+}
+
+@keyframes factions-underline-thread-trace {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes factions-hanging-thread-drop {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes factions-plaque-set-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-16px) scale(1.06);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(2px) scale(0.995);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes faction-emblem-stroke-draw {
+  from {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes faction-emblem-struck-plate {
+  0% {
+    opacity: 0;
+    transform: scale(1.7) rotate(-9deg);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(0.92) rotate(1.5deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes faction-emblem-flickering-burn {
+  0%,
+  18%,
+  42% {
+    opacity: 0;
+  }
+  10%,
+  30% {
+    opacity: 0.55;
+  }
+  55%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes factions-case-card-slide-from-left {
+  0% {
+    opacity: 0;
+    transform: translateX(-64px) rotate(-2.5deg);
+  }
+  75% {
+    opacity: 1;
+    transform: translateX(5px) rotate(0.4deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) rotate(0deg);
+  }
+}
+
+@keyframes factions-case-card-slide-from-right {
+  0% {
+    opacity: 0;
+    transform: translateX(64px) rotate(2.5deg);
+  }
+  75% {
+    opacity: 1;
+    transform: translateX(-5px) rotate(-0.4deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) rotate(0deg);
+  }
+}
+
+@keyframes factions-case-card-drop-from-above {
+  0% {
+    opacity: 0;
+    transform: translateY(-38px) scale(1.03);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(4px) scale(0.998);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes factions-case-card-spin-into-place {
+  0% {
+    opacity: 0;
+    transform: translate(40px, -24px) rotate(7deg);
+  }
+  70% {
+    opacity: 1;
+    transform: translate(-3px, 2px) rotate(-0.8deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
+
+@keyframes factions-stamp-straight-slam {
+  0% {
+    opacity: 0;
+    transform: scale(2.6);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes factions-stamp-rocking-settle {
+  0% {
+    opacity: 0;
+    transform: scale(1.9) rotate(-14deg);
+  }
+  45% {
+    opacity: 1;
+    transform: scale(0.96) rotate(6deg);
+  }
+  72% {
+    transform: scale(1.02) rotate(-3deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes factions-stamp-pressed-twice {
+  0% {
+    opacity: 0;
+    transform: scale(2.1);
+  }
+  30% {
+    opacity: 0.5;
+    transform: scale(0.96);
+  }
+  52% {
+    opacity: 0.5;
+    transform: scale(1.35);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(0.94);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes factions-stamp-dragged-smear {
+  0% {
+    opacity: 0;
+    transform: translateX(-26px) scale(1.5) skewX(-18deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(4px) scale(0.97) skewX(4deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1) skewX(0deg);
+  }
+}
+
+@keyframes factions-locked-sideways-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-9px);
+  }
+  40% {
+    transform: translateX(8px);
+  }
+  60% {
+    transform: translateX(-5px);
+  }
+  80% {
+    transform: translateX(3px);
+  }
+}
+
+@keyframes factions-locked-heavy-drop {
+  0% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-9px);
+  }
+  55% {
+    transform: translateY(4px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes factions-locked-latch-rattle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-0.9deg);
+  }
+  50% {
+    transform: rotate(0.9deg);
+  }
+  75% {
+    transform: rotate(-0.5deg);
+  }
+}
+
+@keyframes factions-paper-clip-slide {
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes factions-thread-trace-from-origin {
+  from {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes factions-thread-trace-from-destination {
+  from {
+    stroke-dasharray: 1;
+    stroke-dashoffset: -1;
+  }
+  to {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes factions-thread-pulled-taut {
+  0% {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    stroke-width: 1;
+  }
+  60% {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+    stroke-width: 6;
+  }
+  100% {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+    stroke-width: 2.5;
+  }
+}
+
+@keyframes factions-rumor-thread-flicker {
+  0%,
+  30%,
+  60% {
+    opacity: 0;
+  }
+  15%,
+  45% {
+    opacity: 0.5;
+  }
+  75%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes factions-thread-label-appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes factions-network-node-pin-down {
+  0% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+  65% {
+    opacity: 1;
+    transform: scale(0.94);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.factions-standing-gauge-frame {
+  min-width: 0;
+}
+
+.factions-standing-gauge {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.factions-standing-gauge path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.factions-standing-gauge-outline path {
+  stroke: var(--color-paper-text);
+  stroke-width: 1.5;
+}
+
+.factions-standing-gauge-lieutenant-zone path {
+  stroke: var(--color-aged-paper);
+  stroke-width: 0.9;
+  opacity: 0.55;
+}
+
+.factions-standing-gauge-settled-fill path {
+  stroke: var(--color-paper-text);
+  stroke-width: 1.5;
+}
+
+.factions-standing-gauge-changed-fill path {
+  stroke: var(--color-blood-accent-text);
+  stroke-width: 1.7;
+}
+
+.factions-standing-gauge[data-change-direction='lost'] .factions-standing-gauge-changed-fill path {
+  stroke: var(--color-paper-muted);
+  stroke-width: 1.1;
+  stroke-dasharray: 3 3;
+}
+
+.factions-standing-gauge-marker path {
+  stroke: var(--color-blood-accent-text);
+  stroke-width: 2.4;
+}
+
+.factions-standing-gauge-numeral {
+  font-family: var(--font-dossier);
+  font-size: 10px;
+  font-weight: 700;
+  fill: var(--color-paper-muted);
+  text-anchor: middle;
+}
+
+.factions-standing-gauge-settled-fill {
+  animation: factions-gauge-ink-settle 420ms var(--ease-snap) both;
+}
+
+.factions-standing-gauge-changed-fill {
+  animation: factions-gauge-ink-sweep 620ms var(--ease-snap) 450ms both;
+}
+
+.factions-standing-gauge[data-change-reveal-variant='ink_stutter'] .factions-standing-gauge-changed-fill {
+  animation: factions-gauge-ink-stutter 700ms steps(1, end) 450ms both;
+}
+
+.factions-standing-gauge[data-change-reveal-variant='ink_press'] .factions-standing-gauge-changed-fill {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: factions-gauge-ink-press 460ms cubic-bezier(0.3, 1.6, 0.5, 1) 450ms both;
+}
+
+.factions-standing-gauge[data-change-reveal-variant='ink_scribble_in'] .factions-standing-gauge-changed-fill {
+  animation: factions-gauge-ink-scribble-in 760ms ease-out 450ms both;
+}
+
+.factions-standing-gauge-marker {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: factions-gauge-marker-drop 360ms cubic-bezier(0.3, 1.6, 0.5, 1) 300ms both;
+}
+
+.factions-standing-gauge-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--font-dossier);
+  font-size: 0.875rem;
+  color: var(--color-blood-accent-text);
+}
+
+.factions-standing-gauge-value[data-has-level-changed='true'] {
+  font-weight: 700;
+  color: var(--color-paper-text);
+  animation: factions-gauge-value-pulse 520ms var(--ease-snap) 450ms both;
+}
+
+.factions-standing-gauge-change-note {
+  margin-top: 0.15rem;
+  font-family: var(--font-dossier);
+  font-size: 0.75rem;
+  color: var(--color-paper-muted);
+  overflow-wrap: anywhere;
+}
+
+.factions-police-card-change-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.05rem 0.4rem;
+  font-family: var(--font-dossier);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8f1027;
+  border: 2px solid #8f1027;
+  transform: rotate(-2deg);
+  animation: factions-change-flag-knock 900ms var(--ease-snap) 600ms both;
+}
+
+.factions-police-card-change-flag[data-is-on-dark-ground='true'] {
+  color: var(--color-blood-accent-text);
+  border-color: var(--color-blood-accent-text);
+}
+
+.factions-posture-tally {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  background: var(--color-void-base);
+  border: 2px dashed var(--color-ink-line);
+}
+
+.factions-posture-tally-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem 0.75rem;
+  min-width: 0;
+}
+
+.factions-posture-tally-row dt {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+  font-size: 0.8125rem;
+  color: var(--color-paper-muted);
+  overflow-wrap: anywhere;
+}
+
+.factions-posture-tally-row dd {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.factions-posture-tally-count {
+  min-width: 1.5ch;
+  font-family: var(--font-dossier);
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: right;
+  color: var(--color-paper-text);
+}
+
+.factions-tally-marks {
+  display: block;
+  max-width: 100%;
+  height: 1.8rem;
+  overflow: visible;
+}
+
+.factions-tally-marks path {
+  fill: none;
+  stroke: var(--color-paper-text);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.factions-tally-marks[data-tone-name='suspicion'] path {
+  stroke: var(--color-blood-accent-text);
+}
+
+.factions-tally-mark {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+  animation: factions-tally-struck 200ms var(--ease-snap) both;
+}
+
+.factions-tally-marks[data-tally-reveal-variant='tally_dropped'] .factions-tally-mark {
+  animation-name: factions-tally-dropped;
+  animation-duration: 300ms;
+}
+
+.factions-tally-marks[data-tally-reveal-variant='tally_scratched'] .factions-tally-mark {
+  animation-name: factions-tally-scratched;
+  animation-duration: 260ms;
+  animation-timing-function: steps(3, end);
+}
+
+.factions-posture-signal[data-is-new-signal='true'] {
+  box-shadow: inset 4px 0 0 0 var(--color-blood-accent);
+}
+
+:root[data-screen-effects-intensity='minimal'] .factions-standing-gauge-changed-fill,
+:root[data-screen-effects-intensity='minimal'] .factions-standing-gauge-marker,
+:root[data-screen-effects-intensity='minimal'] .factions-standing-gauge-value[data-has-level-changed='true'],
+:root[data-screen-effects-intensity='minimal'] .factions-police-card-change-flag,
+:root[data-screen-effects-intensity='minimal'] .factions-tally-mark {
+  animation: none;
+}
+
+:root[data-screen-effects-intensity='softened'] .factions-police-card-change-flag {
+  animation: none;
+}
+
+@keyframes factions-gauge-ink-settle {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes factions-gauge-ink-sweep {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes factions-gauge-ink-stutter {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  35% {
+    opacity: 0;
+  }
+  55% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes factions-gauge-ink-press {
+  from {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+@keyframes factions-gauge-ink-scribble-in {
+  from {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+  }
+  60% {
+    opacity: 1;
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes factions-gauge-marker-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes factions-gauge-value-pulse {
+  from {
+    transform: scale(1);
+  }
+  40% {
+    color: var(--color-blood-accent-text);
+    transform: scale(1.25);
+  }
+}
+
+@keyframes factions-change-flag-knock {
+  from {
+    transform: rotate(-2deg) scale(1);
+  }
+  20% {
+    transform: rotate(3deg) scale(1.12);
+  }
+  40% {
+    transform: rotate(-4deg) scale(1);
+  }
+  60% {
+    transform: rotate(1deg) scale(1.06);
+  }
+}
+
+@keyframes factions-tally-struck {
+  from {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+}
+
+@keyframes factions-tally-dropped {
+  from {
+    opacity: 0;
+    transform: translateY(-12px) rotate(-14deg);
+  }
+}
+
+@keyframes factions-tally-scratched {
+  from {
+    opacity: 0;
+    transform: translateX(-5px);
+  }
+}

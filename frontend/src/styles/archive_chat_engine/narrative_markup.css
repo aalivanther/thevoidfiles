@@ -1,0 +1,832 @@
+.narrative-marked-paragraph {
+  overflow-wrap: anywhere;
+}
+
+.narrative-marked-text-reveal {
+  position: relative;
+}
+
+.narrative-marked-text-reveal-measure {
+  visibility: hidden;
+}
+
+.narrative-marked-text-reveal-live {
+  position: absolute;
+  inset: 0;
+}
+
+.narrative-marked-text-reveal > .narrative-marked-paragraph + .narrative-marked-paragraph,
+.narrative-marked-text-reveal-measure > .narrative-marked-paragraph + .narrative-marked-paragraph,
+.narrative-marked-text-reveal-live > .narrative-marked-paragraph + .narrative-marked-paragraph {
+  margin-top: 0.9em;
+}
+
+.narrative-marked-span {
+  --narrative-effect-strength: 1;
+}
+
+:root[data-screen-effects-intensity='softened'] .narrative-marked-span {
+  --narrative-effect-strength: 0.5;
+}
+
+.narrative-effect-whisper {
+  font-size: 0.9em;
+  font-style: italic;
+  letter-spacing: 0.06em;
+  opacity: 0.78;
+}
+
+.narrative-effect-shout {
+  font-size: 1.12em;
+  font-weight: 700;
+  font-variant-caps: small-caps;
+  letter-spacing: 0.02em;
+}
+
+.narrative-effect-document-type {
+  padding: 0.05em 0.35em;
+  border: 1px solid var(--color-ink-line);
+  background: var(--color-void-surface);
+  font-family: var(--font-dossier);
+  font-style: normal;
+  font-size: 0.94em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.narrative-effect-tremor {
+  font-weight: 600;
+}
+
+.narrative-tremor-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.narrative-tremor-character {
+  display: inline-block;
+  --tremor-horizontal-reach: calc(2px * var(--narrative-effect-strength));
+  --tremor-vertical-reach: 0px;
+  animation: narrative-tremor-shake 700ms steps(2, end) 1;
+}
+
+.narrative-tremor-character:nth-child(even) {
+  animation-name: narrative-tremor-shake-mirrored;
+}
+
+.narrative-marked-span[data-effect-variant='1'] .narrative-tremor-character {
+  --tremor-horizontal-reach: 0px;
+  --tremor-vertical-reach: calc(2px * var(--narrative-effect-strength));
+}
+
+.narrative-marked-span[data-effect-variant='2'] .narrative-tremor-character {
+  --tremor-horizontal-reach: calc(2px * var(--narrative-effect-strength));
+  --tremor-vertical-reach: calc(-2px * var(--narrative-effect-strength));
+}
+
+.narrative-effect-heartbeat {
+  display: inline-block;
+  font-weight: 600;
+}
+
+.narrative-effect-heartbeat.is-effect-playing {
+  animation: narrative-heartbeat-double-pulse 700ms ease-in-out 1;
+}
+
+.narrative-effect-heartbeat.is-effect-playing[data-effect-variant='1'] {
+  animation-name: narrative-heartbeat-rising-pulse;
+}
+
+.narrative-effect-heartbeat.is-effect-playing[data-effect-variant='2'] {
+  animation-name: narrative-heartbeat-fading-pulse;
+}
+
+.narrative-effect-struck-through {
+  color: var(--color-paper-muted);
+  text-decoration: none;
+  background-image: linear-gradient(var(--color-blood-accent-text), var(--color-blood-accent-text));
+  background-repeat: no-repeat;
+  background-position: 0 58%;
+  background-size: 100% 2px;
+}
+
+.narrative-effect-struck-through.is-effect-waiting {
+  color: inherit;
+  background-size: 0 2px;
+}
+
+.narrative-effect-struck-through.is-effect-playing {
+  animation: narrative-strike-advance 300ms ease-out 1;
+}
+
+.narrative-redacted-block {
+  display: inline;
+}
+
+.narrative-redacted-cell {
+  display: inline-block;
+  width: 0.62em;
+  height: 1.05em;
+  overflow: hidden;
+  margin-inline-end: 1px;
+  vertical-align: text-bottom;
+  border: 1px solid var(--color-paper-muted);
+  background: var(--color-ink-line);
+  color: var(--color-paper-muted);
+  font-family: var(--font-dossier);
+  font-size: 0.9em;
+  font-style: normal;
+  line-height: 1.05;
+  text-align: center;
+}
+
+.narrative-redacted-cell.is-redacted-cell-unsettled {
+  background: var(--color-void-surface);
+}
+
+.narrative-effect-interference {
+  position: relative;
+  display: inline-block;
+}
+
+.narrative-effect-interference.is-effect-playing[data-interference-text]::before,
+.narrative-effect-interference.is-effect-playing[data-interference-text]::after {
+  content: attr(data-interference-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.narrative-effect-interference.is-effect-playing[data-interference-text]::before {
+  color: var(--color-arcane);
+  animation: narrative-interference-upper-slice 700ms steps(2, end) 1;
+}
+
+.narrative-effect-interference.is-effect-playing[data-interference-text]::after {
+  color: var(--color-blood-accent-text);
+  animation: narrative-interference-lower-slice 700ms steps(2, end) 1;
+}
+
+.narrative-effect-interference.is-effect-playing[data-effect-variant='1']::before {
+  animation-name: narrative-interference-lower-slice;
+}
+
+.narrative-effect-interference.is-effect-playing[data-effect-variant='1']::after {
+  animation-name: narrative-interference-upper-slice;
+}
+
+.narrative-effect-interference.is-effect-playing[data-effect-variant='2']::before {
+  animation-name: narrative-interference-middle-slice;
+}
+
+.narrative-effect-ink-bleed {
+  position: relative;
+  display: inline-block;
+}
+
+.narrative-effect-ink-bleed::after {
+  content: '';
+  position: absolute;
+  inset: -0.12em -0.25em;
+  pointer-events: none;
+  opacity: 0.62;
+  background:
+    radial-gradient(ellipse 46% 60% at 28% 52%, var(--color-ink-line) 0 62%, transparent 66%),
+    radial-gradient(ellipse 38% 52% at 66% 44%, var(--color-ink-line) 0 60%, transparent 65%),
+    radial-gradient(ellipse 12% 22% at 92% 78%, var(--color-ink-line) 0 58%, transparent 64%),
+    radial-gradient(ellipse 9% 16% at 6% 22%, var(--color-ink-line) 0 58%, transparent 64%);
+  transform-origin: 30% 50%;
+}
+
+.narrative-effect-ink-bleed[data-effect-variant='1']::after {
+  transform-origin: 70% 40%;
+}
+
+.narrative-effect-ink-bleed[data-effect-variant='2']::after {
+  transform-origin: 50% 100%;
+}
+
+.narrative-effect-ink-bleed.is-effect-waiting::after {
+  opacity: 0;
+}
+
+.narrative-effect-ink-bleed.is-effect-playing::after {
+  animation: narrative-ink-bleed-spread 700ms ease-out 1;
+}
+
+.narrative-effect-fading {
+  opacity: 0.45;
+}
+
+.narrative-effect-fading.is-effect-waiting {
+  opacity: 1;
+}
+
+.narrative-effect-fading.is-effect-playing {
+  animation: narrative-fading-away 500ms ease-in 1;
+}
+
+.narrative-effect-rewritten.is-effect-playing {
+  color: var(--color-arcane);
+}
+
+:root[data-reduced-motion='true'] .narrative-effect-tremor,
+:root[data-screen-effects-intensity='minimal'] .narrative-effect-tremor {
+  color: var(--color-danger);
+}
+
+:root[data-reduced-motion='true'] .narrative-effect-heartbeat.is-effect-playing,
+:root[data-screen-effects-intensity='minimal'] .narrative-effect-heartbeat.is-effect-playing,
+:root[data-reduced-motion='true'] .narrative-effect-struck-through.is-effect-playing,
+:root[data-screen-effects-intensity='minimal'] .narrative-effect-struck-through.is-effect-playing,
+:root[data-reduced-motion='true'] .narrative-effect-fading.is-effect-playing,
+:root[data-screen-effects-intensity='minimal'] .narrative-effect-fading.is-effect-playing,
+:root[data-reduced-motion='true'] .narrative-effect-anomalous,
+:root[data-screen-effects-intensity='minimal'] .narrative-effect-anomalous {
+  animation: none;
+}
+
+:root[data-reduced-motion='true'] .narrative-effect-interference.is-effect-playing,
+:root[data-screen-effects-intensity='minimal'] .narrative-effect-interference.is-effect-playing {
+  outline: 2px solid var(--color-arcane);
+  outline-offset: 2px;
+}
+
+:root[data-reduced-motion='true'] .narrative-effect-ink-bleed,
+:root[data-screen-effects-intensity='minimal'] .narrative-effect-ink-bleed {
+  color: var(--color-paper-muted);
+}
+
+:root[data-reduced-motion='true'] .narrative-effect-ink-bleed::after,
+:root[data-screen-effects-intensity='minimal'] .narrative-effect-ink-bleed::after {
+  display: none;
+}
+
+:root[data-reduced-motion='true'] .narrative-effect-rewritten.is-effect-playing,
+:root[data-screen-effects-intensity='minimal'] .narrative-effect-rewritten.is-effect-playing {
+  color: inherit;
+}
+
+@keyframes narrative-tremor-shake {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  15%,
+  45%,
+  75% {
+    translate: var(--tremor-horizontal-reach) var(--tremor-vertical-reach);
+  }
+  30%,
+  60%,
+  90% {
+    translate: calc(var(--tremor-horizontal-reach) * -1) calc(var(--tremor-vertical-reach) * -1);
+  }
+}
+
+@keyframes narrative-tremor-shake-mirrored {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  15%,
+  45%,
+  75% {
+    translate: calc(var(--tremor-horizontal-reach) * -1) calc(var(--tremor-vertical-reach) * -1);
+  }
+  30%,
+  60%,
+  90% {
+    translate: var(--tremor-horizontal-reach) var(--tremor-vertical-reach);
+  }
+}
+
+@keyframes narrative-heartbeat-double-pulse {
+  0%,
+  30%,
+  100% {
+    scale: 1;
+  }
+  15% {
+    scale: calc(1 + 0.09 * var(--narrative-effect-strength));
+  }
+  48% {
+    scale: calc(1 + 0.06 * var(--narrative-effect-strength));
+  }
+  66% {
+    scale: 1;
+  }
+}
+
+@keyframes narrative-heartbeat-rising-pulse {
+  0%,
+  30%,
+  100% {
+    scale: 1;
+  }
+  15% {
+    scale: calc(1 + 0.05 * var(--narrative-effect-strength));
+  }
+  50% {
+    scale: calc(1 + 0.1 * var(--narrative-effect-strength));
+  }
+  70% {
+    scale: 1;
+  }
+}
+
+@keyframes narrative-heartbeat-fading-pulse {
+  0%,
+  26%,
+  100% {
+    scale: 1;
+  }
+  12% {
+    scale: calc(1 + 0.1 * var(--narrative-effect-strength));
+  }
+  42% {
+    scale: calc(1 + 0.04 * var(--narrative-effect-strength));
+  }
+  58% {
+    scale: 1;
+  }
+}
+
+@keyframes narrative-strike-advance {
+  from {
+    background-size: 0 2px;
+  }
+  to {
+    background-size: 100% 2px;
+  }
+}
+
+@keyframes narrative-interference-upper-slice {
+  0% {
+    opacity: 1;
+    clip-path: inset(0 0 62% 0);
+    translate: calc(-3px * var(--narrative-effect-strength)) 0;
+  }
+  40% {
+    opacity: 1;
+    clip-path: inset(18% 0 40% 0);
+    translate: calc(3px * var(--narrative-effect-strength)) 0;
+  }
+  80% {
+    opacity: 1;
+    clip-path: inset(6% 0 70% 0);
+    translate: calc(-2px * var(--narrative-effect-strength)) 0;
+  }
+  100% {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+    translate: 0 0;
+  }
+}
+
+@keyframes narrative-interference-lower-slice {
+  0% {
+    opacity: 1;
+    clip-path: inset(64% 0 0 0);
+    translate: calc(3px * var(--narrative-effect-strength)) 0;
+  }
+  40% {
+    opacity: 1;
+    clip-path: inset(48% 0 22% 0);
+    translate: calc(-3px * var(--narrative-effect-strength)) 0;
+  }
+  80% {
+    opacity: 1;
+    clip-path: inset(72% 0 4% 0);
+    translate: calc(2px * var(--narrative-effect-strength)) 0;
+  }
+  100% {
+    opacity: 0;
+    clip-path: inset(100% 0 0 0);
+    translate: 0 0;
+  }
+}
+
+@keyframes narrative-interference-middle-slice {
+  0% {
+    opacity: 1;
+    clip-path: inset(38% 0 38% 0);
+    translate: calc(4px * var(--narrative-effect-strength)) 0;
+  }
+  50% {
+    opacity: 1;
+    clip-path: inset(28% 0 52% 0);
+    translate: calc(-4px * var(--narrative-effect-strength)) 0;
+  }
+  100% {
+    opacity: 0;
+    clip-path: inset(50% 0 50% 0);
+    translate: 0 0;
+  }
+}
+
+@keyframes narrative-ink-bleed-spread {
+  from {
+    opacity: 0;
+    scale: 0.35;
+  }
+  to {
+    opacity: 0.62;
+    scale: 1;
+  }
+}
+
+@keyframes narrative-fading-away {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.45;
+  }
+}
+
+.director-thinking-indicator {
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.85rem;
+  min-height: 4.75rem;
+  padding: 0.5rem 0 0.5rem 0.9rem;
+  border-left: 4px solid var(--color-blood-accent);
+}
+
+.director-thinking-indicator:not(:has(.director-thinking-drawing)) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.director-thinking-indicator[data-director-thinking-variant='shortwave_static'] {
+  border-left-color: var(--color-arcane);
+}
+
+.director-thinking-drawing {
+  width: 3.5rem;
+  height: 3.5rem;
+  overflow: visible;
+  border: 2px solid var(--color-ink-line);
+  background: var(--color-void-surface);
+  box-shadow: 3px 3px 0 0 #000;
+}
+
+.director-thinking-status {
+  font-family: var(--font-dossier);
+  font-size: 0.875rem;
+  letter-spacing: 0.03em;
+  color: var(--color-paper-text);
+}
+
+.director-thinking-ellipsis {
+  display: inline-block;
+  min-width: 1.6em;
+}
+
+.director-thinking-aside {
+  min-height: 2.6em;
+  margin-top: 0.15rem;
+  font-family: var(--font-narrative);
+  font-size: 0.8125rem;
+  font-style: italic;
+  line-height: 1.3;
+  color: var(--color-paper-muted);
+  overflow-wrap: anywhere;
+}
+
+.director-generation-lettering {
+  margin: 0;
+  min-height: 2.8em;
+  font-family: var(--font-narrative);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--color-paper-text);
+  overflow-wrap: break-word;
+}
+
+.director-generation-lettering[data-wait-stage-name='looping'] {
+  color: var(--color-paper-muted);
+}
+
+.director-generation-lettering[data-wait-stage-name='completing'] {
+  color: var(--color-paper-text);
+}
+
+.director-generation-wait-panel {
+  padding: 0.85rem 0.9rem;
+  border: 2px solid var(--color-ink-line);
+  border-left: 4px solid var(--color-blood-accent);
+  background: var(--color-void-surface);
+  box-shadow: 3px 3px 0 0 #000;
+}
+
+:root[data-reduced-motion='true'] .director-generation-lettering {
+  transition: opacity 150ms ease-out;
+}
+
+.director-thinking-drawing * {
+  transform-box: fill-box;
+  transform-origin: center;
+  vector-effect: non-scaling-stroke;
+}
+
+.thinking-ink-stroke {
+  fill: none;
+  stroke: var(--color-paper-muted);
+  stroke-width: 2;
+  stroke-linecap: square;
+}
+
+.thinking-paper-stroke {
+  fill: none;
+  stroke: var(--color-paper-text);
+  stroke-width: 2;
+}
+
+.thinking-ink-solid {
+  fill: var(--color-ink-line);
+  stroke: var(--color-paper-muted);
+  stroke-width: 2;
+}
+
+.thinking-paper-solid {
+  fill: var(--color-paper-text);
+  stroke: none;
+}
+
+.thinking-quill {
+  transform-origin: 0% 100%;
+}
+
+.thinking-quill-drop {
+  fill: var(--color-blood-accent-text);
+  opacity: 0;
+}
+
+.thinking-quill-written-line {
+  fill: none;
+  stroke: var(--color-blood-accent-text);
+  stroke-width: 2;
+  opacity: 0;
+}
+
+[data-director-turn-phase='weighing_action'] .thinking-quill-drop {
+  opacity: 1;
+  animation: thinking-quill-drop-falling 1400ms ease-in infinite;
+}
+
+[data-director-turn-phase='narrating'] .thinking-quill {
+  animation: thinking-quill-writing 700ms ease-in-out infinite;
+}
+
+[data-director-turn-phase='narrating'] .thinking-quill-written-line {
+  opacity: 1;
+  animation: thinking-quill-line-appearing 2100ms steps(1, end) infinite;
+}
+
+[data-director-turn-phase='narrating'] .thinking-quill-written-line-second {
+  animation-delay: 700ms;
+}
+
+[data-director-turn-phase='narrating'] .thinking-quill-written-line-third {
+  animation-delay: 1400ms;
+}
+
+.thinking-reel {
+  animation: thinking-reel-turning 1600ms linear infinite;
+}
+
+[data-director-turn-phase='narrating'] .thinking-reel {
+  animation-duration: 700ms;
+}
+
+.thinking-recording-light {
+  fill: none;
+  stroke: var(--color-paper-muted);
+  stroke-width: 2;
+}
+
+[data-director-turn-phase='narrating'] .thinking-recording-light {
+  fill: var(--color-blood-accent);
+  stroke: var(--color-blood-accent-text);
+}
+
+.thinking-eye-pupil {
+  fill: var(--color-blood-accent-text);
+}
+
+.thinking-eye-lid {
+  fill: var(--color-void-surface);
+  stroke: var(--color-paper-muted);
+  stroke-width: 2;
+  transform-origin: 50% 0%;
+  scale: 1 0.8;
+  animation: thinking-eye-slow-blink 3200ms ease-in-out infinite;
+}
+
+.thinking-eye-reading-line {
+  fill: none;
+  stroke: var(--color-ink-line);
+  stroke-width: 2;
+  stroke-dasharray: 4 3;
+  opacity: 0;
+}
+
+[data-director-turn-phase='narrating'] .thinking-eye-lid {
+  scale: 1 0.12;
+  animation: none;
+}
+
+[data-director-turn-phase='narrating'] .thinking-eye-opening {
+  animation: thinking-eye-reading 1400ms ease-in-out infinite alternate;
+}
+
+[data-director-turn-phase='narrating'] .thinking-eye-reading-line {
+  opacity: 1;
+}
+
+.thinking-file-card {
+  fill: var(--color-aged-paper);
+  stroke: var(--color-aged-paper-ink);
+  stroke-width: 1.5;
+}
+
+[data-director-turn-phase='weighing_action'] .thinking-file-card {
+  animation: thinking-file-card-leafing 2000ms ease-in-out infinite;
+}
+
+[data-director-turn-phase='weighing_action'] .thinking-file-card-second {
+  animation-delay: 500ms;
+}
+
+[data-director-turn-phase='weighing_action'] .thinking-file-card-third {
+  animation-delay: 1000ms;
+}
+
+[data-director-turn-phase='weighing_action'] .thinking-file-card-fourth {
+  animation-delay: 1500ms;
+}
+
+[data-director-turn-phase='narrating'] .thinking-file-card-third {
+  translate: 0 -12px;
+  animation: thinking-file-card-held-up 1600ms ease-in-out infinite alternate;
+}
+
+.thinking-wave-flat,
+.thinking-wave-irregular {
+  fill: none;
+  stroke-width: 2;
+  stroke-linejoin: miter;
+}
+
+.thinking-wave-flat {
+  stroke: var(--color-paper-muted);
+}
+
+.thinking-wave-irregular {
+  stroke: var(--color-arcane);
+  opacity: 0;
+}
+
+[data-director-turn-phase='weighing_action'] .thinking-wave-flat {
+  animation: thinking-wave-loose-tremor 2400ms steps(1, end) infinite;
+}
+
+[data-director-turn-phase='narrating'] .thinking-wave-flat {
+  opacity: 0;
+}
+
+[data-director-turn-phase='narrating'] .thinking-wave-irregular {
+  opacity: 1;
+  animation: thinking-wave-irregular-signal 900ms steps(1, end) infinite;
+}
+
+:root[data-screen-effects-intensity='minimal'] .director-thinking-drawing * {
+  animation: none;
+}
+
+@keyframes thinking-quill-drop-falling {
+  0%,
+  35% {
+    translate: 0 -6px;
+    opacity: 0;
+  }
+  45% {
+    translate: 0 -4px;
+    opacity: 1;
+  }
+  85% {
+    translate: 0 6px;
+    opacity: 1;
+  }
+  100% {
+    translate: 0 8px;
+    opacity: 0;
+  }
+}
+
+@keyframes thinking-quill-writing {
+  0%,
+  100% {
+    rotate: 0deg;
+    translate: 0 0;
+  }
+  50% {
+    rotate: 5deg;
+    translate: 3px 0;
+  }
+}
+
+@keyframes thinking-quill-line-appearing {
+  0% {
+    opacity: 0;
+  }
+  33%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes thinking-reel-turning {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@keyframes thinking-eye-slow-blink {
+  0%,
+  78%,
+  100% {
+    scale: 1 0.8;
+  }
+  88% {
+    scale: 1 1.9;
+  }
+}
+
+@keyframes thinking-eye-reading {
+  from {
+    translate: -6px 0;
+  }
+  to {
+    translate: 6px 0;
+  }
+}
+
+@keyframes thinking-file-card-leafing {
+  0%,
+  25%,
+  100% {
+    translate: 0 0;
+    rotate: 0deg;
+  }
+  12% {
+    translate: 0 -7px;
+    rotate: -6deg;
+  }
+}
+
+@keyframes thinking-file-card-held-up {
+  from {
+    translate: 0 -12px;
+  }
+  to {
+    translate: 0 -14px;
+  }
+}
+
+@keyframes thinking-wave-loose-tremor {
+  0%,
+  70%,
+  82%,
+  100% {
+    scale: 1 1;
+  }
+  74% {
+    scale: 1 2.4;
+  }
+  78% {
+    scale: 1 -1.6;
+  }
+}
+
+@keyframes thinking-wave-irregular-signal {
+  0%,
+  100% {
+    scale: 1 1;
+  }
+  20% {
+    scale: 1 0.55;
+  }
+  40% {
+    scale: 1 -0.9;
+  }
+  60% {
+    scale: 1 1.25;
+  }
+  80% {
+    scale: 1 -0.5;
+  }
+}

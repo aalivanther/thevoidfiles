@@ -1,0 +1,1314 @@
+.staging-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.staging-tension-edge {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 900ms ease-out;
+}
+
+.staging-layer[data-scene-tension-tier='threatening'] .staging-tension-edge {
+  opacity: 1;
+  box-shadow: inset 0 0 0 2px rgb(200 30 58 / 0.4);
+  background:
+    linear-gradient(90deg, rgb(200 30 58 / 0.12), transparent 7%),
+    linear-gradient(270deg, rgb(200 30 58 / 0.12), transparent 7%);
+}
+
+.staging-layer[data-scene-tension-tier='lethal'] .staging-tension-edge {
+  opacity: 1;
+  box-shadow: inset 0 0 0 3px rgb(255 59 48 / 0.55);
+  background:
+    linear-gradient(90deg, rgb(255 59 48 / 0.16), transparent 9%),
+    linear-gradient(270deg, rgb(255 59 48 / 0.16), transparent 9%),
+    repeating-linear-gradient(135deg, rgb(200 30 58 / 0.1) 0 2px, transparent 2px 9px) top / 100% 10px no-repeat;
+}
+
+.staged-moment-scene {
+  position: absolute;
+  inset: 0;
+  animation: staging-scene-fade-out 320ms ease-in 1180ms forwards;
+}
+
+.staged-moment-scene[data-staging-moment='attack_delivered'] {
+  animation-delay: 700ms;
+}
+
+.staged-moment-scene[data-staging-moment='critical_failure'] {
+  animation-delay: 2280ms;
+}
+
+.staged-moment-scene[data-staging-moment='mental_attack'],
+.staged-moment-scene[data-staging-moment='tension_rose'] {
+  animation-delay: 2080ms;
+}
+
+.staged-moment-scene[data-staging-moment='anomaly_manifested'] {
+  animation-delay: 2880ms;
+}
+
+.staged-moment-scene[data-staging-moment='scene_changed'] {
+  animation-delay: 2280ms;
+}
+
+.staged-moment-scene[data-staging-variant='screen_tear_bands'] {
+  animation-delay: 520ms;
+  animation-duration: 160ms;
+}
+
+.staged-moment-content {
+  position: absolute;
+  inset: 0;
+}
+
+:root[data-screen-effects-intensity='full'] .staged-moment-scene[data-staging-shake='true'] .staged-moment-content {
+  animation: staging-screen-shake 280ms steps(7, end) both;
+}
+
+.staging-single-flash {
+  position: absolute;
+  inset: 0;
+  background: rgb(232 230 225 / 0.14);
+  opacity: 0;
+  animation: staging-single-flash 140ms linear both;
+}
+
+.staging-impact-frame,
+.staging-danger-frame {
+  position: absolute;
+  inset: 0;
+  border: 6px solid var(--color-blood-accent);
+  background:
+    linear-gradient(90deg, rgb(200 30 58 / 0.22), transparent 12%),
+    linear-gradient(270deg, rgb(200 30 58 / 0.22), transparent 12%);
+  animation: staging-frame-strike 450ms var(--ease-snap) both;
+}
+
+.staging-danger-frame {
+  border-color: var(--color-danger);
+  border-width: 4px;
+  animation: staging-danger-frame-hold 2000ms ease-out both;
+}
+
+.staged-moment-scene[data-staging-variant='still_impact_mark'] .staging-impact-frame,
+.staged-moment-scene[data-staging-variant='side_splatter'] .staging-impact-frame {
+  border-width: 0;
+  background: none;
+}
+
+.staged-moment-scene[data-staging-side='left'] .staging-impact-frame {
+  border-left-width: 10px;
+}
+
+.staged-moment-scene[data-staging-side='right'] .staging-impact-frame {
+  border-right-width: 10px;
+}
+
+.staging-impact-mark {
+  position: absolute;
+  top: var(--staging-vertical-position, 40%);
+  width: 3.25rem;
+  height: 3.25rem;
+  background:
+    linear-gradient(45deg, transparent 44%, var(--color-blood-accent) 44% 56%, transparent 56%),
+    linear-gradient(-45deg, transparent 44%, var(--color-blood-accent) 44% 56%, transparent 56%),
+    var(--color-void-surface);
+  border: 2px solid var(--color-blood-accent-text);
+  box-shadow: 4px 4px 0 0 #000;
+  transform: rotate(var(--staging-tilt, 4deg));
+  animation: staging-mark-appear 150ms ease-out both;
+}
+
+.staged-moment-scene[data-staging-side='left'] .staging-impact-mark,
+.staged-moment-scene[data-staging-side='left'] .staging-blood-splatter,
+.staged-moment-scene[data-staging-side='left'] .staging-ink-strokes,
+.staged-moment-scene[data-staging-side='left'] .staging-margin-stamp,
+.staged-moment-scene[data-staging-side='left'] .staging-rewritten-memory-slip {
+  left: 0.75rem;
+}
+
+.staged-moment-scene[data-staging-side='right'] .staging-impact-mark,
+.staged-moment-scene[data-staging-side='right'] .staging-blood-splatter,
+.staged-moment-scene[data-staging-side='right'] .staging-ink-strokes,
+.staged-moment-scene[data-staging-side='right'] .staging-margin-stamp,
+.staged-moment-scene[data-staging-side='right'] .staging-rewritten-memory-slip {
+  right: 0.75rem;
+}
+
+.staging-blood-splatter {
+  position: absolute;
+  top: var(--staging-vertical-position, 40%);
+  width: min(30vw, 11rem);
+  height: min(30vw, 11rem);
+  fill: var(--color-blood-accent);
+  stroke: #000;
+  stroke-width: 1.5;
+  transform: rotate(var(--staging-tilt, 0deg)) scale(var(--staging-scale, 1));
+  animation: staging-splatter-burst 450ms var(--ease-snap) both;
+}
+
+.staging-onomatopoeia {
+  position: absolute;
+  top: calc(var(--staging-vertical-position, 40%) - 3.2rem);
+  padding: 0.1em 0.35em 0;
+  font-size: clamp(1.9rem, 7vw, 3.2rem);
+  line-height: 1.12;
+  color: var(--color-aged-paper);
+  background: var(--color-blood-accent);
+  border: 3px solid #000;
+  box-shadow: 5px 5px 0 0 #000;
+  transform: rotate(var(--staging-tilt, -5deg));
+  animation: staging-stamp-slam 300ms var(--ease-snap) 120ms both;
+}
+
+.staged-moment-scene[data-staging-side='left'] .staging-onomatopoeia {
+  left: 1.25rem;
+}
+
+.staged-moment-scene[data-staging-side='right'] .staging-onomatopoeia {
+  right: 1.25rem;
+}
+
+.staging-crack-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+}
+
+.staged-moment-scene[data-staging-variant='cracked_panel'][data-staging-side='right'] .staging-crack-lines {
+  transform: scaleX(-1);
+}
+
+.staging-crack-line-group,
+.physical-death-crack {
+  animation: staging-crack-open 260ms steps(5, end) both;
+}
+
+.staging-crack-line,
+.physical-death-crack-line {
+  stroke: var(--color-paper-text);
+  stroke-width: 2.5px;
+  stroke-linejoin: miter;
+  vector-effect: non-scaling-stroke;
+}
+
+.staging-crack-line-shadow,
+.physical-death-crack-shadow {
+  stroke: var(--color-blood-accent);
+  stroke-width: 7px;
+  stroke-linejoin: miter;
+  vector-effect: non-scaling-stroke;
+}
+
+.staging-margin-stamp {
+  position: absolute;
+  bottom: 24%;
+  padding: 0.25em 0.55em 0.15em;
+  font-size: clamp(1.2rem, 4.5vw, 1.9rem);
+  line-height: 1.12;
+  color: var(--color-danger);
+  background: var(--color-void-surface);
+  border: 3px double var(--color-danger);
+  box-shadow: 4px 4px 0 0 #000;
+  transform: rotate(var(--staging-tilt, -6deg));
+  animation: staging-stamp-slam 500ms var(--ease-snap) 450ms both;
+}
+
+.staging-critical-failure-stamp {
+  bottom: calc(14% + var(--staging-vertical-position, 40%) * 0.3);
+}
+
+.staging-ink-strokes {
+  position: absolute;
+  top: var(--staging-vertical-position, 35%);
+  width: min(34vw, 15rem);
+  height: min(34vh, 13rem);
+  fill: none;
+  overflow: visible;
+}
+
+.staged-moment-scene[data-staging-side='right'] .staging-ink-strokes {
+  transform: scaleX(-1);
+}
+
+.staging-ink-stroke {
+  stroke: var(--color-aged-paper);
+  stroke-width: 6px;
+  stroke-linecap: square;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  paint-order: stroke;
+  animation: staging-ink-stroke-draw 300ms var(--ease-snap) both;
+}
+
+.staged-moment-scene[data-staging-variant='ink_sweep'] .staging-ink-stroke {
+  stroke-width: 11px;
+  stroke: var(--color-blood-accent-text);
+}
+
+.staging-arcane-closing-frame {
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 3px rgb(94 230 208 / 0.75);
+  background: radial-gradient(ellipse 75% 70% at 50% 50%, transparent 55%, rgb(94 230 208 / 0.2) 100%);
+  animation: staging-arcane-frame-close 600ms ease-out both;
+}
+
+.staging-arcane-echo-frame {
+  position: absolute;
+  inset: 5%;
+  border: 1px solid rgb(94 230 208 / 0.6);
+  animation: staging-arcane-echo 1600ms ease-out both;
+}
+
+.staging-arcane-echo-frame-second {
+  inset: 11%;
+  animation-delay: 260ms;
+}
+
+.staging-rewritten-memory-slip {
+  position: absolute;
+  top: 8.5rem;
+  width: min(80vw, 21rem);
+  padding: 0.7rem 0.8rem;
+  background: var(--color-void-elevated);
+  border: 2px solid var(--color-arcane);
+  box-shadow: 5px 5px 0 0 #000;
+  animation: staging-mark-appear 200ms ease-out both;
+}
+
+.staging-rewritten-memory-label {
+  font-family: var(--font-dossier);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-paper-muted);
+}
+
+.staging-rewritten-memory-false-phrase {
+  margin-bottom: 0.5rem;
+  font-family: var(--font-narrative);
+  color: var(--color-arcane);
+  text-decoration: line-through;
+  overflow-wrap: anywhere;
+}
+
+.staging-rewritten-memory-true-phrase {
+  font-family: var(--font-narrative);
+  color: var(--color-paper-text);
+  overflow-wrap: anywhere;
+}
+
+.staging-arcane-margin-bleed {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 18px;
+  background: linear-gradient(180deg, transparent, rgb(94 230 208 / 0.55) 30%, rgb(94 230 208 / 0.2) 70%, transparent);
+  border-inline: 1px solid rgb(94 230 208 / 0.7);
+  animation: staging-margin-bleed 3000ms ease-in-out both;
+}
+
+.staged-moment-scene[data-staging-side='left'] .staging-arcane-margin-bleed {
+  left: 0;
+}
+
+.staged-moment-scene[data-staging-side='right'] .staging-arcane-margin-bleed {
+  right: 0;
+}
+
+.staging-cold-corner-glyph {
+  position: absolute;
+  font-family: var(--font-dossier);
+  font-size: 1.6rem;
+  color: var(--color-arcane);
+  text-shadow: 2px 2px 0 #000;
+  animation: staging-glyph-flicker 2800ms steps(1, end) both;
+}
+
+.staging-cold-corner-glyph[data-corner-index='0'] {
+  top: 4.5rem;
+  left: 0.75rem;
+}
+
+.staging-cold-corner-glyph[data-corner-index='1'] {
+  top: 4.5rem;
+  right: 0.75rem;
+  animation-delay: 200ms;
+}
+
+.staging-cold-corner-glyph[data-corner-index='2'] {
+  bottom: 1rem;
+  left: 0.75rem;
+  animation-delay: 380ms;
+}
+
+.staging-cold-corner-glyph[data-corner-index='3'] {
+  bottom: 1rem;
+  right: 0.75rem;
+  animation-delay: 120ms;
+}
+
+.staging-watching-eyes {
+  position: absolute;
+  top: var(--staging-vertical-position, 40%);
+  display: flex;
+  gap: 0.55rem;
+  transform: scale(var(--staging-scale, 1));
+  animation: staging-eyes-open 3000ms ease-in-out both;
+}
+
+.staged-moment-scene[data-staging-side='left'] .staging-watching-eyes[data-eye-pair-index='0'] {
+  left: 0.9rem;
+}
+
+.staged-moment-scene[data-staging-side='right'] .staging-watching-eyes[data-eye-pair-index='0'] {
+  right: 0.9rem;
+}
+
+.staging-watching-eyes[data-eye-pair-index='1'] {
+  top: 12%;
+  right: 1.2rem;
+  animation-delay: 240ms;
+}
+
+.staging-watching-eyes[data-eye-pair-index='2'] {
+  top: 72%;
+  left: 1.1rem;
+  animation-delay: 420ms;
+}
+
+.staging-watching-eyes[data-eye-pair-index='3'] {
+  top: 84%;
+  right: 22%;
+  animation-delay: 130ms;
+}
+
+.staging-watching-eyes[data-eye-pair-index='4'] {
+  top: 5.2rem;
+  left: 30%;
+  animation-delay: 560ms;
+}
+
+.staging-watching-eye {
+  position: relative;
+  display: block;
+  width: 1.9rem;
+  height: 0.95rem;
+  background: var(--color-aged-paper);
+  border: 2px solid #000;
+  border-radius: 100% 0;
+  box-shadow: 0 0 0 1px rgb(200 30 58 / 0.7);
+  overflow: hidden;
+}
+
+.staging-watching-eye-pupil {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.5rem;
+  height: 0.8rem;
+  background: #000;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.staging-screen-tear-band {
+  position: absolute;
+  left: -4%;
+  width: 108%;
+  height: 7%;
+  background:
+    linear-gradient(180deg, rgb(94 230 208 / 0.5) 0 2px, transparent 2px),
+    repeating-linear-gradient(90deg, var(--color-void-surface) 0 22px, var(--color-void-elevated) 22px 31px);
+  border-bottom: 2px solid var(--color-blood-accent);
+  animation: staging-tear-band-shift 520ms steps(4, end) both;
+}
+
+.staging-screen-tear-band[data-band-index='0'] {
+  top: 14%;
+  --staging-tear-shift: 3.5%;
+}
+
+.staging-screen-tear-band[data-band-index='1'] {
+  top: 37%;
+  height: 4%;
+  --staging-tear-shift: -2.5%;
+}
+
+.staging-screen-tear-band[data-band-index='2'] {
+  top: 58%;
+  height: 9%;
+  --staging-tear-shift: 2%;
+}
+
+.staging-screen-tear-band[data-band-index='3'] {
+  top: 81%;
+  height: 3%;
+  --staging-tear-shift: -3.5%;
+}
+
+.staging-place-caption {
+  position: absolute;
+  top: 3.9rem;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  max-width: min(86vw, 30rem);
+  padding: 0.45rem 1.4rem 0.4rem 1rem;
+  color: var(--color-paper-text);
+  background: var(--color-blood-accent);
+  border: 2px solid #000;
+  border-left: 0;
+  box-shadow: 5px 5px 0 0 #000;
+  animation: staging-mark-appear 200ms ease-out both;
+}
+
+.staging-place-caption-eyebrow {
+  font-family: var(--font-dossier);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.staging-place-caption-name {
+  font-size: clamp(1.3rem, 5vw, 2rem);
+  line-height: 1.12;
+  overflow-wrap: anywhere;
+}
+
+.staged-moment-scene[data-staging-variant='sliding_place_caption'] .staging-place-caption {
+  animation: staging-caption-slide 380ms var(--ease-snap) both;
+}
+
+.staged-moment-scene[data-staging-variant='slanted_place_band'] .staging-place-caption {
+  clip-path: polygon(0 0, 100% 0, calc(100% - 1.1rem) 100%, 0 100%);
+  padding-right: 2.2rem;
+  animation: staging-caption-slide 320ms var(--ease-snap) both;
+}
+
+.staged-moment-scene[data-staging-variant='stamped_place_card'] .staging-place-caption {
+  left: 0.9rem;
+  color: var(--color-aged-paper-ink);
+  background: var(--color-aged-paper);
+  border-left: 2px solid #000;
+  transform: rotate(var(--staging-tilt, -3deg));
+  animation: staging-stamp-slam 360ms var(--ease-snap) both;
+}
+
+.staging-tension-frame {
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 4px rgb(200 30 58 / 0.7);
+  background: radial-gradient(ellipse 80% 75% at 50% 50%, transparent 60%, rgb(200 30 58 / 0.2) 100%);
+  animation: staging-heartbeat-pulse 900ms ease-out 2 both;
+}
+
+.staged-moment-scene[data-staging-variant='tightening_frame'] .staging-tension-frame {
+  animation: staging-frame-tighten 2000ms ease-in-out both;
+}
+
+.staged-moment-scene[data-staging-variant='cold_breath_line'] .staging-tension-frame,
+.staged-moment-scene[data-staging-variant='thin_warning_line'] .staging-tension-frame {
+  box-shadow: none;
+  background: none;
+  animation: none;
+}
+
+.staging-tension-line {
+  position: absolute;
+  top: 3.6rem;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--color-blood-accent-text) 20% 80%, transparent);
+  animation: staging-mark-appear 150ms ease-out both;
+}
+
+.staged-moment-scene[data-staging-variant='cold_breath_line'] .staging-tension-line {
+  background: linear-gradient(90deg, transparent, var(--color-paper-muted) 25% 75%, transparent);
+  animation: staging-breath-line-descend 2000ms ease-in-out both;
+}
+
+.staging-receipt-region {
+  position: absolute;
+  top: 4.25rem;
+  left: 50%;
+  width: min(92vw, 30rem);
+  transform: translateX(-50%);
+}
+
+.staging-altered-perception-receipt {
+  padding: 0.6rem 0.8rem;
+  font-family: var(--font-dossier);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--color-paper-text);
+  background: var(--color-void-elevated);
+  border: 2px solid var(--color-arcane);
+  border-left-width: 6px;
+  box-shadow: 5px 5px 0 0 #000;
+  overflow-wrap: anywhere;
+  animation: staging-receipt-file-in 300ms var(--ease-snap) both;
+}
+
+.chronicle-death-sequence-host {
+  position: fixed;
+  inset: 0;
+  z-index: 35;
+  overflow: hidden;
+  outline: none;
+}
+
+.chronicle-death-loading-frame {
+  position: absolute;
+  inset: 0;
+  border: 6px solid var(--color-blood-accent);
+}
+
+.chronicle-death-sequence-host[data-death-nature='psychological'] .chronicle-death-loading-frame {
+  border-color: var(--color-arcane);
+}
+
+.death-sequence-skip-button {
+  position: absolute;
+  right: 1rem;
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 7;
+  min-height: 44px;
+  background: var(--color-void-surface);
+}
+
+.physical-death-sequence,
+.psychological-death-sequence,
+.reduced-death-plate-stage {
+  position: absolute;
+  inset: 0;
+}
+
+.physical-death-impact-frame {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border: 10px solid var(--color-danger);
+  background:
+    linear-gradient(90deg, rgb(255 59 48 / 0.25), transparent 14%),
+    linear-gradient(270deg, rgb(255 59 48 / 0.25), transparent 14%);
+}
+
+:root[data-screen-effects-intensity='full'] .physical-death-impact-frame {
+  animation: staging-screen-shake 280ms steps(7, end) both;
+}
+
+.physical-death-retiring-band {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  height: 36%;
+  background: repeating-linear-gradient(135deg, #2c0a13 0 9px, var(--color-void-surface) 9px 18px);
+  border-top: 4px solid var(--color-blood-accent);
+  animation: physical-death-band-rise 1100ms var(--ease-snap) both;
+}
+
+.physical-death-cracks {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  fill: none;
+}
+
+.physical-death-rising-sheet {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background:
+    repeating-linear-gradient(180deg, transparent 0 5px, rgb(217 207 184 / 0.05) 5px 6px),
+    repeating-linear-gradient(90deg, transparent 0 13px, rgb(0 0 0 / 0.12) 13px 14px),
+    linear-gradient(180deg, var(--color-blood-accent) 0%, #5c0f1e 34%, var(--color-void-base) 100%);
+  border-top: 6px solid var(--color-aged-paper);
+  animation: physical-death-sheet-rise 900ms cubic-bezier(0.7, 0, 0.3, 1) both;
+}
+
+.physical-death-wound-marks {
+  position: absolute;
+  top: 16%;
+  left: 50%;
+  z-index: 5;
+  display: flex;
+  gap: 0.6rem;
+  transform: translateX(-50%);
+}
+
+.physical-death-wound-mark {
+  display: block;
+  width: clamp(2.2rem, 11vw, 3.4rem);
+  height: clamp(2.2rem, 11vw, 3.4rem);
+  background:
+    linear-gradient(45deg, transparent 43%, var(--color-blood-accent) 43% 57%, transparent 57%),
+    linear-gradient(-45deg, transparent 43%, var(--color-blood-accent) 43% 57%, transparent 57%),
+    var(--color-aged-paper);
+  border: 3px solid #000;
+  box-shadow: 4px 4px 0 0 #000;
+  animation: staging-stamp-slam 260ms var(--ease-snap) both;
+}
+
+.physical-death-wound-mark:nth-child(even) {
+  transform: rotate(3deg);
+}
+
+.physical-death-wound-slash {
+  position: absolute;
+  top: 50%;
+  left: -6%;
+  width: 112%;
+  height: 8px;
+  background: var(--color-danger);
+  border: 2px solid #000;
+  transform: rotate(-7deg);
+  transform-origin: left center;
+  animation: physical-death-slash-cut 320ms var(--ease-snap) 120ms both;
+}
+
+.physical-death-stamp-plate {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  z-index: 6;
+  width: min(90vw, 34rem);
+  padding: 1.2rem 1.3rem 1.1rem;
+  color: var(--color-aged-paper-ink);
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.22), transparent 30%),
+    var(--color-aged-paper);
+  border: 3px solid #000;
+  box-shadow: 8px 8px 0 0 #000;
+  transform: translate(-50%, -50%) rotate(-3deg);
+  animation: physical-death-stamp-slam 500ms var(--ease-snap) both;
+}
+
+.physical-death-stamp-title,
+.reduced-death-plate-title {
+  font-size: clamp(2.2rem, 9vw, 4rem);
+  line-height: 1.12;
+  color: #8f1027;
+  overflow-wrap: anywhere;
+}
+
+.physical-death-cause-label,
+.psychological-death-cause-label,
+.reduced-death-plate-cause-label {
+  margin-top: 0.8rem;
+  font-family: var(--font-dossier);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.physical-death-cause-text,
+.psychological-death-cause-text,
+.reduced-death-plate-cause-text {
+  margin-top: 0.2rem;
+  font-family: var(--font-narrative);
+  font-size: 1.05rem;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.psychological-death-tint-frame {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  box-shadow: inset 0 0 0 2px rgb(94 230 208 / 0.7);
+  background: radial-gradient(ellipse 80% 75% at 50% 45%, rgb(11 11 13 / 0.35) 30%, rgb(94 230 208 / 0.2) 100%);
+  animation: psychological-death-tint-settle 1800ms ease-out both;
+}
+
+.psychological-death-epitaph {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  z-index: 3;
+  width: min(90vw, 38rem);
+  padding: 0.9rem 1rem;
+  background: var(--color-void-surface);
+  border: 2px solid var(--color-ink-line);
+  border-left: 5px solid var(--color-arcane);
+  transform: translateX(-50%);
+  overflow-wrap: anywhere;
+}
+
+.psychological-death-epitaph-visible {
+  color: var(--color-arcane);
+}
+
+.psychological-death-epitaph-pending {
+  color: var(--color-paper-muted);
+  opacity: 0.35;
+  text-decoration: line-through;
+}
+
+.psychological-death-ink-stains {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.psychological-death-ink-stain {
+  position: absolute;
+  width: 70vmax;
+  height: 70vmax;
+  background: radial-gradient(circle, #130b26 0 52%, rgb(94 230 208 / 0.38) 55%, rgb(94 230 208 / 0.12) 60%, transparent 66%);
+  transform: translate(-50%, -50%);
+  animation: psychological-death-ink-spread 500ms ease-out both;
+}
+
+.psychological-death-ink-stain-second {
+  animation-delay: 500ms;
+}
+
+.psychological-death-sequence[data-ink-variant='ink_from_upper_edge'] .psychological-death-ink-stain-first {
+  top: 0;
+  left: 30%;
+}
+
+.psychological-death-sequence[data-ink-variant='ink_from_upper_edge'] .psychological-death-ink-stain-second {
+  top: 8%;
+  left: 78%;
+}
+
+.psychological-death-sequence[data-ink-variant='ink_from_both_margins'] .psychological-death-ink-stain-first {
+  top: 40%;
+  left: 0;
+}
+
+.psychological-death-sequence[data-ink-variant='ink_from_both_margins'] .psychological-death-ink-stain-second {
+  top: 62%;
+  left: 100%;
+}
+
+.psychological-death-sequence[data-ink-variant='ink_in_scattered_blots'] .psychological-death-ink-stain {
+  width: 46vmax;
+  height: 46vmax;
+}
+
+.psychological-death-sequence[data-ink-variant='ink_in_scattered_blots'] .psychological-death-ink-stain-first {
+  top: 30%;
+  left: 22%;
+}
+
+.psychological-death-sequence[data-ink-variant='ink_in_scattered_blots'] .psychological-death-ink-stain-second {
+  top: 70%;
+  left: 74%;
+}
+
+.psychological-death-intrusive-options {
+  position: absolute;
+  bottom: 12%;
+  left: 50%;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  width: min(92vw, 34rem);
+  transform: translateX(-50%);
+}
+
+.psychological-death-intrusive-option {
+  display: flex;
+  gap: 0.7rem;
+  align-items: baseline;
+  padding: 0.65rem 0.8rem;
+  font-family: var(--font-interface);
+  color: var(--color-paper-text);
+  background: var(--color-void-elevated);
+  border: 2px solid var(--color-ink-line);
+  border-left: 4px solid var(--color-arcane);
+  overflow-wrap: anywhere;
+  animation: psychological-death-option-surface 420ms ease-out both;
+}
+
+.psychological-death-intrusive-option-number {
+  font-family: var(--font-dossier);
+  color: var(--color-arcane);
+}
+
+.psychological-death-false-status {
+  position: absolute;
+  top: 4.5rem;
+  right: 1rem;
+  z-index: 3;
+  display: flex;
+  gap: 1.2rem;
+  padding: 0.55rem 0.8rem;
+  font-family: var(--font-dossier);
+  color: var(--color-paper-text);
+  background: var(--color-void-surface);
+  border: 2px solid var(--color-arcane);
+}
+
+.psychological-death-false-status dt {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-paper-muted);
+}
+
+.psychological-death-false-status dd {
+  font-size: 1.15rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-arcane);
+}
+
+.psychological-death-dissolving-bands {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+}
+
+.psychological-death-dissolving-band {
+  flex: 1 1 0;
+  background:
+    radial-gradient(circle at center, rgb(94 230 208 / 0.1) 1px, transparent 1.4px) 0 0 / 12px 12px,
+    var(--color-void-base);
+  border-bottom: 1px solid rgb(94 230 208 / 0.3);
+  animation: psychological-death-band-settle 420ms ease-out both;
+}
+
+.psychological-death-closure-plate {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 5;
+  width: min(90vw, 34rem);
+  padding: 1.2rem 1.3rem;
+  color: var(--color-paper-text);
+  background: var(--color-void-surface);
+  border: 1px solid rgb(94 230 208 / 0.5);
+  transform: translate(-50%, -50%);
+}
+
+.psychological-death-closure-plate[data-sealed='true'] {
+  border: 3px double var(--color-arcane);
+  box-shadow: 0 0 0 6px var(--color-void-base), 0 0 0 7px rgb(94 230 208 / 0.4);
+}
+
+.psychological-death-closure-typed {
+  min-height: 2.4rem;
+  font-family: var(--font-dossier);
+  font-size: 1.4rem;
+  text-transform: lowercase;
+  color: var(--color-arcane);
+}
+
+.psychological-death-closure-caret {
+  display: inline-block;
+  width: 0.6em;
+  height: 1em;
+  margin-left: 0.1em;
+  vertical-align: text-bottom;
+  background: var(--color-arcane);
+}
+
+.psychological-death-closure-sealed {
+  font-size: clamp(2.1rem, 8.5vw, 3.8rem);
+  line-height: 1.12;
+  color: var(--color-paper-text);
+  overflow-wrap: anywhere;
+  animation: psychological-death-closure-seal 400ms var(--ease-snap) both;
+}
+
+.psychological-death-cause-label {
+  color: var(--color-arcane);
+}
+
+.reduced-death-plate-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background:
+    repeating-linear-gradient(135deg, rgb(200 30 58 / 0.1) 0 2px, transparent 2px 11px),
+    var(--color-void-base);
+  border: 5px solid var(--color-blood-accent);
+}
+
+.reduced-death-plate-stage[data-death-nature='psychological'] {
+  background:
+    radial-gradient(circle at center, rgb(94 230 208 / 0.12) 1px, transparent 1.4px) 0 0 / 12px 12px,
+    var(--color-void-base);
+  border-color: var(--color-arcane);
+}
+
+.reduced-death-plate {
+  width: min(100%, 34rem);
+  padding: 1.4rem;
+  color: var(--color-aged-paper-ink);
+  background: var(--color-aged-paper);
+  border: 3px solid #000;
+  box-shadow: 8px 8px 0 0 #000;
+  animation: staging-mark-appear 150ms ease-out both;
+}
+
+.reduced-death-plate-stage[data-death-nature='psychological'] .reduced-death-plate {
+  color: var(--color-paper-text);
+  background: var(--color-void-surface);
+  border: 3px double var(--color-arcane);
+  box-shadow: none;
+}
+
+.reduced-death-plate-stage[data-death-nature='psychological'] .reduced-death-plate-title {
+  color: var(--color-paper-text);
+}
+
+.reduced-death-plate-stage[data-death-nature='psychological'] .reduced-death-plate-cause-label {
+  color: var(--color-arcane);
+}
+
+.reduced-death-plate-button {
+  min-height: 44px;
+  margin-top: 1.3rem;
+}
+
+@keyframes staging-scene-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes staging-screen-shake {
+  0% {
+    translate: 0 0;
+  }
+  15% {
+    translate: -6px 2px;
+  }
+  30% {
+    translate: 5px -3px;
+  }
+  45% {
+    translate: -4px -2px;
+  }
+  60% {
+    translate: 3px 3px;
+  }
+  80% {
+    translate: -2px 1px;
+  }
+  100% {
+    translate: 0 0;
+  }
+}
+
+@keyframes staging-single-flash {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes staging-frame-strike {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes staging-danger-frame-hold {
+  0%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.25;
+  }
+}
+
+@keyframes staging-mark-appear {
+  from {
+    opacity: 0.2;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes staging-splatter-burst {
+  from {
+    transform: rotate(var(--staging-tilt, 0deg)) scale(0.3);
+  }
+  to {
+    transform: rotate(var(--staging-tilt, 0deg)) scale(var(--staging-scale, 1));
+  }
+}
+
+@keyframes staging-stamp-slam {
+  from {
+    scale: 1.8;
+  }
+  to {
+    scale: 1;
+  }
+}
+
+@keyframes staging-crack-open {
+  from {
+    clip-path: inset(0 100% 100% 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@keyframes staging-ink-stroke-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes staging-arcane-frame-close {
+  from {
+    opacity: 0.2;
+    scale: 1.12;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@keyframes staging-arcane-echo {
+  0% {
+    opacity: 0.9;
+    scale: 1;
+  }
+  100% {
+    opacity: 0;
+    scale: 0.86;
+  }
+}
+
+@keyframes staging-margin-bleed {
+  0% {
+    opacity: 0.15;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes staging-glyph-flicker {
+  0% {
+    opacity: 0.2;
+  }
+  12% {
+    opacity: 1;
+  }
+  46% {
+    opacity: 0.4;
+  }
+  58% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes staging-eyes-open {
+  0% {
+    scale: 1 0.05;
+  }
+  12%,
+  46% {
+    scale: 1 1;
+  }
+  52% {
+    scale: 1 0.08;
+  }
+  58%,
+  88% {
+    scale: 1 1;
+  }
+  100% {
+    scale: 1 0.05;
+  }
+}
+
+@keyframes staging-tear-band-shift {
+  0% {
+    translate: var(--staging-tear-shift, 3%) 0;
+  }
+  50% {
+    translate: calc(var(--staging-tear-shift, 3%) * -0.6) 0;
+  }
+  100% {
+    translate: 0 0;
+  }
+}
+
+@keyframes staging-caption-slide {
+  from {
+    translate: -60% 0;
+  }
+  to {
+    translate: 0 0;
+  }
+}
+
+@keyframes staging-heartbeat-pulse {
+  0% {
+    opacity: 0.25;
+  }
+  18% {
+    opacity: 1;
+  }
+  36% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+
+@keyframes staging-frame-tighten {
+  0% {
+    box-shadow: inset 0 0 0 2px rgb(200 30 58 / 0.5);
+  }
+  55% {
+    box-shadow: inset 0 0 0 14px rgb(200 30 58 / 0.7);
+  }
+  100% {
+    box-shadow: inset 0 0 0 3px rgb(200 30 58 / 0.4);
+  }
+}
+
+@keyframes staging-breath-line-descend {
+  from {
+    translate: 0 0;
+    opacity: 1;
+  }
+  to {
+    translate: 0 70vh;
+    opacity: 0.2;
+  }
+}
+
+@keyframes staging-receipt-file-in {
+  from {
+    translate: 0 -14px;
+  }
+  to {
+    translate: 0 0;
+  }
+}
+
+@keyframes physical-death-band-rise {
+  from {
+    translate: 0 100%;
+  }
+  to {
+    translate: 0 0;
+  }
+}
+
+@keyframes physical-death-sheet-rise {
+  from {
+    translate: 0 100%;
+  }
+  to {
+    translate: 0 0;
+  }
+}
+
+@keyframes physical-death-slash-cut {
+  from {
+    scale: 0 1;
+  }
+  to {
+    scale: 1 1;
+  }
+}
+
+@keyframes physical-death-stamp-slam {
+  from {
+    scale: 1.7;
+  }
+  to {
+    scale: 1;
+  }
+}
+
+@keyframes psychological-death-tint-settle {
+  from {
+    opacity: 0.3;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes psychological-death-ink-spread {
+  from {
+    scale: 0.08;
+  }
+  to {
+    scale: 1;
+  }
+}
+
+@keyframes psychological-death-option-surface {
+  from {
+    opacity: 0.15;
+    translate: 0 8px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes psychological-death-band-settle {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes psychological-death-closure-seal {
+  from {
+    letter-spacing: 0.4em;
+  }
+  to {
+    letter-spacing: 0.02em;
+  }
+}

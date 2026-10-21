@@ -1,0 +1,228 @@
+.reading-log-entry + .reading-log-entry:has(> .consequence-summary-absorbed-entry) {
+  margin-top: 0;
+}
+
+.reading-log-entry:has(> .consequence-summary-absorbed-entry) {
+  gap: 0;
+  animation: none;
+}
+
+.consequence-summary-block {
+  min-width: 0;
+  padding: 0.55rem 0.85rem 0.6rem;
+  font-size: 0.875rem;
+  transform: rotate(-0.35deg);
+  transform-origin: top left;
+}
+
+.consequence-summary-block .consequence-summary-heading {
+  color: var(--color-aged-paper-ink);
+  padding-bottom: 0.25rem;
+  border-bottom: 2px solid var(--color-aged-paper-ink);
+}
+
+.consequence-summary-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-top: 0.4rem;
+  font-family: var(--font-dossier);
+}
+
+.consequence-summary-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.consequence-summary-line-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+  color: #8f1027;
+}
+
+.consequence-summary-line-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.consequence-summary-line[data-effect-kind='relationship_changed'] .consequence-summary-line-icon {
+  margin-top: 0.85rem;
+}
+
+.consequence-summary-relationship-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.2rem 0;
+  text-align: left;
+  color: var(--color-aged-paper-ink);
+  font-family: var(--font-dossier);
+}
+
+.consequence-summary-relationship-toggle:focus-visible {
+  outline: 2px solid #8f1027;
+  outline-offset: 2px;
+}
+
+.consequence-summary-relationship-toggle-texts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.6rem;
+  min-width: 0;
+}
+
+.consequence-summary-relationship-toggle .consequence-summary-line-text {
+  text-decoration: underline dotted #8f1027;
+  text-underline-offset: 0.2em;
+}
+
+.consequence-summary-relationship-band {
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: #4a4336;
+}
+
+.consequence-summary-relationship-toggle-hint {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.1rem 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-aged-paper-ink);
+  border: 2px solid var(--color-aged-paper-ink);
+}
+
+.consequence-summary-relationship-toggle:hover .consequence-summary-relationship-toggle-hint,
+.consequence-summary-relationship-toggle:focus-visible .consequence-summary-relationship-toggle-hint {
+  color: var(--color-aged-paper);
+  background: var(--color-aged-paper-ink);
+}
+
+.consequence-summary-relationship-toggle:active .consequence-summary-relationship-toggle-hint {
+  transform: scale(0.97);
+}
+
+.consequence-summary-relationship-toggle-hint svg {
+  transition: transform 140ms var(--ease-snap);
+}
+
+.consequence-summary-relationship-toggle[aria-expanded='true'] .consequence-summary-relationship-toggle-hint svg {
+  transform: rotate(180deg);
+}
+
+.consequence-summary-relationship-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0.25rem 0 0.3rem -1.5rem;
+  font-family: var(--font-interface, inherit);
+}
+
+.consequence-summary-relationship-details[hidden] {
+  display: none;
+}
+
+.consequence-summary-relationship-details .relationship-pulse-block {
+  animation: consequence-summary-detail-unfolds 220ms var(--ease-snap) both;
+}
+
+[data-should-play-entrance='true'] .consequence-summary-line[data-tick-variant] .consequence-summary-line-icon {
+  animation-duration: 260ms;
+  animation-timing-function: var(--ease-snap);
+  animation-fill-mode: backwards;
+  animation-delay: calc(min(var(--consequence-line-order, 0), 6) * 55ms);
+}
+
+[data-should-play-entrance='true'] .consequence-summary-line[data-tick-variant='ink_pressed'] .consequence-summary-line-icon {
+  animation-name: consequence-summary-tick-ink-pressed;
+}
+
+[data-should-play-entrance='true'] .consequence-summary-line[data-tick-variant='pen_check_drawn'] .consequence-summary-line-icon {
+  animation-name: consequence-summary-tick-pen-check-drawn;
+}
+
+[data-should-play-entrance='true'] .consequence-summary-line[data-tick-variant='margin_slide'] .consequence-summary-line-icon {
+  animation-name: consequence-summary-tick-margin-slide;
+}
+
+@keyframes consequence-summary-tick-ink-pressed {
+  from {
+    opacity: 0;
+    transform: scale(1.9) rotate(-12deg);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(0.9) rotate(0deg);
+  }
+}
+
+@keyframes consequence-summary-tick-pen-check-drawn {
+  from {
+    opacity: 0.2;
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes consequence-summary-tick-margin-slide {
+  from {
+    opacity: 0;
+    transform: translateX(-0.6rem);
+  }
+}
+
+@keyframes consequence-summary-detail-unfolds {
+  from {
+    opacity: 0;
+    transform: translateY(-0.3rem);
+  }
+}
+
+:root[data-screen-effects-intensity='softened'] [data-should-play-entrance='true'] .consequence-summary-line[data-tick-variant] .consequence-summary-line-icon {
+  animation-name: consequence-summary-tick-margin-slide;
+  animation-duration: 180ms;
+  animation-delay: 0ms;
+}
+
+:root[data-screen-effects-intensity='minimal'] .consequence-summary-block {
+  transform: none;
+}
+
+:root[data-reduced-motion='true'] [data-should-play-entrance='true'] .consequence-summary-line[data-tick-variant] .consequence-summary-line-icon,
+:root[data-screen-effects-intensity='minimal'] [data-should-play-entrance='true'] .consequence-summary-line[data-tick-variant] .consequence-summary-line-icon,
+:root[data-reduced-motion='true'] .consequence-summary-relationship-details .relationship-pulse-block,
+:root[data-screen-effects-intensity='minimal'] .consequence-summary-relationship-details .relationship-pulse-block {
+  animation: none;
+}
+
+:root[data-reduced-motion='true'] .consequence-summary-relationship-toggle-hint svg,
+:root[data-reduced-motion='true'] .consequence-summary-relationship-toggle:active .consequence-summary-relationship-toggle-hint {
+  transition: none;
+  transform: none;
+}
+
+:root[data-reduced-motion='true'] .consequence-summary-relationship-toggle[aria-expanded='true'] .consequence-summary-relationship-toggle-hint svg {
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-should-play-entrance='true'] .consequence-summary-line[data-tick-variant] .consequence-summary-line-icon,
+  .consequence-summary-relationship-details .relationship-pulse-block {
+    animation: none;
+  }
+}

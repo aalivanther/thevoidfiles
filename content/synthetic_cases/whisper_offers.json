@@ -1,0 +1,61 @@
+{
+  "offer_format_version": 1,
+  "offered_whispers": [
+    {
+      "identifier": "lighthouse_counts_one_more",
+      "ordinal_label": "I",
+      "headline": "El faro que cuenta de más",
+      "source_label": "Radio de pescadores · Banda costera",
+      "rumor_text": "El faro de Punta Ánimas lleva apagado desde 1987. Los pescadores juran que da nueve destellos cada madrugada. Anoche dio diez. Esta mañana faltaba un hombre.",
+      "distance_text": "340 km",
+      "sphere_text": "Rural aislada",
+      "tone_text": "Misterio",
+      "threat_text": "Local",
+      "reward_text": "Moderada",
+      "is_encoded": false,
+      "is_case_material_available": true
+    },
+    {
+      "identifier": "night_shift_fourth_floor",
+      "ordinal_label": "II",
+      "headline": "Turno de noche en la planta cuatro",
+      "source_label": "Foro de vigilantes · Hilo borrado",
+      "rumor_text": "Una farmacéutica paga horas extra a quien acepte no mirar las cámaras del nivel cuatro. Tres guardias renunciaron la misma semana. Ninguno recuerda por qué.",
+      "distance_text": "710 km",
+      "sphere_text": "Instalación corporativa",
+      "tone_text": "Terror psicológico",
+      "threat_text": "Local",
+      "reward_text": "Alta",
+      "is_encoded": false,
+      "is_case_material_available": false
+    },
+    {
+      "identifier": "procession_nobody_called",
+      "ordinal_label": "III",
+      "headline": "La procesión que nadie convocó",
+      "source_label": "Nota breve · Diario regional",
+      "rumor_text": "A las tres de la madrugada una procesión recorre la calle del Arco. No figura en ningún programa de la parroquia. Los vecinos dicen que cada noche lleva un cargador más.",
+      "distance_text": "925 km",
+      "sphere_text": "Sitio histórico",
+      "tone_text": "Intriga social",
+      "threat_text": "Local",
+      "reward_text": "Moderada",
+      "is_encoded": false,
+      "is_case_material_available": false
+    },
+    {
+      "identifier": "encoded_whisper",
+      "ordinal_label": "IV",
+      "headline": "▓▓▓ ▓▓▓▓▓▓ ▓▓ ▓▓▓▓▓",
+      "source_label": "Origen desconocido",
+      "rumor_text": "Transmisión interceptada en onda corta. Se repite cada noche a la misma hora. Nadie ha reclamado su autoría.",
+      "distance_text": "▓▓▓ km",
+      "sphere_text": "Desconocida",
+      "tone_text": "Desconocido",
+      "threat_text": "Oculta",
+      "reward_text": "Oculta",
+      "is_encoded": true,
+      "is_case_material_available": false
+    }
+  ]
+}

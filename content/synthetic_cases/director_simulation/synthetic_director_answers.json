@@ -1,0 +1,17 @@
+{
+  "answers_format_version": 1,
+  "adjudication": {
+    "interpreted_intent_text": "El investigador ejecuta el paso declarado tal como lo escribió.",
+    "concise_ruling_text": "El paso es posible con lo que el investigador tiene a mano en la escena.",
+    "elapsed_minutes": 5
+  },
+  "chapter_summary": {
+    "summary_paragraphs": [
+      "El archivo queda cerrado y el expediente vuelve a su carpeta.",
+      "{{nombre}} firma lo que vio y deja fuera lo que no supo explicar."
+    ],
+    "open_thread_texts": [
+      "Queda por saber quién más escuchó la cuenta del faro."
+    ]
+  }
+}
