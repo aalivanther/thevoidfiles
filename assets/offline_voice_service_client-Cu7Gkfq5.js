@@ -1,0 +1,1 @@
+var e={wasSuccessful:!1,failureName:`service_absent`},t=async()=>e,n=async()=>e,r=async()=>e,i=async()=>e,a=async(t,n,r)=>r.aborted?{wasSuccessful:!1,failureName:`request_cancelled`}:e;export{n as a,a as i,i as n,t as r,r as t};
