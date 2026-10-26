@@ -1,6 +1,7 @@
 import { ArrowRight, FastForward } from '@phosphor-icons/react'
 import { useEffect, useRef, useState } from 'react'
 import { chooseAnimationVariantName } from '../animation/animation_variety'
+import { alphaPaintedLikeColorString } from '../animation/canvas_alpha'
 import { useInteractionFeedback } from '../audio/interaction_feedback'
 import type { NarrationPanel } from '../demonstration/threshold_narration_script'
 import { personalizeNarrativeText } from '../game_state/chronicle_state'
@@ -61,6 +62,7 @@ function DriftingStarfieldBackdrop({ driftAcceleration }: { driftAcceleration: n
       currentSpeedBoost += (currentDriftAcceleration.current - currentSpeedBoost) * Math.min(1, elapsedSeconds * 3)
       currentDriftAcceleration.current *= Math.pow(0.04, elapsedSeconds)
       drawingContext.clearRect(0, 0, canvasWidth, canvasHeight)
+      let paintedStarColor = ''
       for (const driftingStar of driftingStars) {
         driftingStar.verticalShare += elapsedSeconds * driftingStar.depth * (0.006 + currentSpeedBoost * 0.5)
         if (driftingStar.verticalShare > 1.02) {
@@ -69,9 +71,14 @@ function DriftingStarfieldBackdrop({ driftAcceleration }: { driftAcceleration: n
         }
         const twinkle = 0.55 + Math.sin(frameTimestamp / 600 + driftingStar.twinkleOffset) * 0.45
         const starLength = 1 + driftingStar.depth * 1.6 + currentSpeedBoost * driftingStar.depth * 46
-        drawingContext.fillStyle = driftingStar.isArcaneColored
-          ? `rgba(94, 230, 208, ${0.5 * twinkle})`
-          : `rgba(232, 230, 225, ${0.55 * twinkle * driftingStar.depth})`
+        const starColor = driftingStar.isArcaneColored ? 'rgb(94, 230, 208)' : 'rgb(232, 230, 225)'
+        if (starColor !== paintedStarColor) {
+          drawingContext.fillStyle = starColor
+          paintedStarColor = starColor
+        }
+        drawingContext.globalAlpha = alphaPaintedLikeColorString(
+          driftingStar.isArcaneColored ? 0.5 * twinkle : 0.55 * twinkle * driftingStar.depth,
+        )
         drawingContext.fillRect(
           driftingStar.horizontalShare * canvasWidth,
           driftingStar.verticalShare * canvasHeight,
@@ -79,6 +86,7 @@ function DriftingStarfieldBackdrop({ driftAcceleration }: { driftAcceleration: n
           starLength,
         )
       }
+      drawingContext.globalAlpha = 1
       if (!shouldReduceMotion) {
         animationFrameIdentifier = window.requestAnimationFrame(drawStarfield)
       }

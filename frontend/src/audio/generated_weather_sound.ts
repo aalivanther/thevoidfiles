@@ -11,6 +11,8 @@ type WeatherSoundEngine = {
 let weatherSoundEngine: WeatherSoundEngine | null = null
 let requestedWeatherVolume = 0
 let weatherDuckingShare = 1
+let suspensionTimeoutIdentifier = 0
+const silenceBeforeSuspendingMilliseconds = 6000
 
 function createNoiseBuffer(audioContext: AudioContext, smoothing: number): AudioBuffer {
   const bufferDurationSeconds = 7
@@ -112,12 +114,29 @@ export function changeWeatherSoundVolume(weatherVolume: number) {
   if (!weatherSoundEngine) {
     return
   }
-  const { audioContext, masterGain } = weatherSoundEngine
+  const engine = weatherSoundEngine
+  const { audioContext, masterGain } = engine
+  window.clearTimeout(suspensionTimeoutIdentifier)
+  suspensionTimeoutIdentifier = 0
   if (weatherVolume > 0 && audioContext.state === 'suspended') {
     void audioContext.resume()
   }
+  if (weatherVolume > 0 && engine.gustTimeoutIdentifier === 0) {
+    scheduleNextWindGust(engine)
+  }
   masterGain.gain.cancelScheduledValues(audioContext.currentTime)
   masterGain.gain.setTargetAtTime(requestedWeatherVolume * weatherDuckingShare, audioContext.currentTime, 0.9)
+  if (weatherVolume <= 0) {
+    suspensionTimeoutIdentifier = window.setTimeout(() => {
+      suspensionTimeoutIdentifier = 0
+      if (weatherSoundEngine !== engine || requestedWeatherVolume > 0) {
+        return
+      }
+      window.clearTimeout(engine.gustTimeoutIdentifier)
+      engine.gustTimeoutIdentifier = 0
+      void audioContext.suspend()
+    }, silenceBeforeSuspendingMilliseconds)
+  }
 }
 
 export function changeWeatherSoundDuckingShare(duckingShare: number) {

@@ -15,5 +15,5 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["vite.config.ts", "vite_portfolio_demonstration.ts", "vitest.config.ts"]
+  "include": ["vite.config.ts", "vite_portfolio_demonstration.ts", "vite_lean_delivery.ts", "vitest.config.ts"]
 }

@@ -1,5 +1,6 @@
 import { Howl, Howler } from 'howler'
 import { useCallback, useEffect, useRef } from 'react'
+import { waitForIdleMoment } from '../loading/idle_moment'
 import { usePlayerSettings } from '../settings/player_settings'
 
 export type InteractionSoundName =
@@ -139,7 +140,7 @@ export function changeLiveSoundVolume(soundVolume: number) {
   Howler.volume(soundVolume)
 }
 
-export function preloadFrequentInteractionSounds() {
+function preloadFrequentInteractionSounds() {
   for (const interactionSoundName of interactionSoundNamesPreloadedAtStart) {
     for (const fileName of soundFileNamesByInteractionSoundName[interactionSoundName]) {
       if (!loadedSoundByFileName.has(fileName)) {
@@ -150,6 +151,10 @@ export function preloadFrequentInteractionSounds() {
       }
     }
   }
+}
+
+export function preloadFrequentInteractionSoundsAfterStartup() {
+  void document.fonts.ready.then(waitForIdleMoment, waitForIdleMoment).then(preloadFrequentInteractionSounds)
 }
 
 function hasEnoughTimePassedSinceLastPlay(interactionSoundName: InteractionSoundName): boolean {

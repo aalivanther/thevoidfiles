@@ -106,6 +106,34 @@ function fadeOutLayer(layerName: MusicLayerName) {
   for (const playingTrack of playingTracksByLayer[layerName]) {
     playingTrack.fadeDirection = -1
   }
+  if (playingTracksByLayer[layerName].length > 0) {
+    ensureFadeLoopIsRunning()
+  }
+}
+
+function isTrackApproachingItsEnd(audioElement: HTMLAudioElement): boolean {
+  return (
+    !audioElement.loop &&
+    Number.isFinite(audioElement.duration) &&
+    audioElement.duration - audioElement.currentTime < secondsBeforeEndToStartNextTrack
+  )
+}
+
+function handOverTrackWhenEnding(layerName: MusicLayerName, playingTrack: PlayingTrack) {
+  const { audioElement } = playingTrack
+  if (playingTrack.fadeDirection === 1 && (isTrackApproachingItsEnd(audioElement) || audioElement.ended)) {
+    playingTrack.fadeDirection = -1
+    ensureFadeLoopIsRunning()
+    if (currentMood && currentMusicVolume > 0) {
+      startTrackOnLayer(layerName, currentMood)
+    }
+  }
+}
+
+function isAnyTrackStillFading(): boolean {
+  return [...playingTracksByLayer.leading, ...playingTracksByLayer.undercurrent].some(
+    (playingTrack) => playingTrack.fadeDirection === -1 || playingTrack.fadeShare < 1,
+  )
 }
 
 function startTrackOnLayer(layerName: MusicLayerName, mood: AmbientMusicMood) {
@@ -132,9 +160,16 @@ function startTrackOnLayer(layerName: MusicLayerName, mood: AmbientMusicMood) {
     layerLevel: layerName === 'leading' ? moodPlaylist.leadingLayerLevel : moodPlaylist.undercurrentLayerLevel,
   }
   playingTracksByLayer[layerName].push(playingTrack)
+  if (!audioElement.loop) {
+    const handOverThisTrack = () => handOverTrackWhenEnding(layerName, playingTrack)
+    audioElement.addEventListener('timeupdate', handOverThisTrack)
+    audioElement.addEventListener('ended', handOverThisTrack)
+  }
+  ensureFadeLoopIsRunning()
   void audioElement.play().catch(() => {
     playingTrack.fadeDirection = -1
     playingTrack.fadeShare = 0
+    ensureFadeLoopIsRunning()
   })
 }
 
@@ -145,17 +180,7 @@ function advanceFadesAndPlaylist() {
     for (const playingTrack of playingTracks) {
       playingTrack.fadeShare = Math.min(1, Math.max(0, playingTrack.fadeShare + fadeStepShare * playingTrack.fadeDirection))
       applyVolumeToTrack(playingTrack)
-      const { audioElement } = playingTrack
-      const isApproachingEnd =
-        !audioElement.loop &&
-        Number.isFinite(audioElement.duration) &&
-        audioElement.duration - audioElement.currentTime < secondsBeforeEndToStartNextTrack
-      if (playingTrack.fadeDirection === 1 && (isApproachingEnd || audioElement.ended)) {
-        playingTrack.fadeDirection = -1
-        if (currentMood && currentMusicVolume > 0) {
-          startTrackOnLayer(layerName, currentMood)
-        }
-      }
+      handOverTrackWhenEnding(layerName, playingTrack)
     }
     playingTracksByLayer[layerName] = playingTracks.filter((playingTrack) => {
       const isSilentAndLeaving = playingTrack.fadeDirection === -1 && playingTrack.fadeShare <= 0
@@ -166,6 +191,10 @@ function advanceFadesAndPlaylist() {
       }
       return !isSilentAndLeaving
     })
+  }
+  if (!isAnyTrackStillFading()) {
+    window.clearInterval(fadeIntervalIdentifier)
+    fadeIntervalIdentifier = 0
   }
 }
 

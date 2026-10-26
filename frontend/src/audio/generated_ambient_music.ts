@@ -92,6 +92,7 @@ const recipeByAmbientMood: Record<AmbientMusicMood, AmbientMoodRecipe> = {
 const moodTransitionSeconds = 5
 const generatedBedShareOfMusicVolume = 0.42
 const volumeTransitionSeconds = 0.6
+const silenceBeforeSuspendingMilliseconds = 2400
 
 type AmbientMusicEngine = {
   audioContext: AudioContext
@@ -110,6 +111,7 @@ let ambientMusicEngine: AmbientMusicEngine | null = null
 let requestedMood: AmbientMusicMood = 'cosmic_origin'
 let requestedVolume = 0
 let ambientDuckingShare = 1
+let suspensionTimeoutIdentifier = 0
 const duckingTransitionSeconds = 0.18
 
 function createBrownNoiseBuffer(audioContext: AudioContext): AudioBuffer {
@@ -261,6 +263,30 @@ function createAmbientMusicEngine(): AmbientMusicEngine | null {
   return engine
 }
 
+function suspendEngineOnceSilent(engine: AmbientMusicEngine) {
+  window.clearTimeout(suspensionTimeoutIdentifier)
+  suspensionTimeoutIdentifier = window.setTimeout(() => {
+    suspensionTimeoutIdentifier = 0
+    if (ambientMusicEngine !== engine || requestedVolume > 0) {
+      return
+    }
+    window.clearTimeout(engine.bellTimeoutIdentifier)
+    engine.bellTimeoutIdentifier = 0
+    void engine.audioContext.suspend()
+  }, silenceBeforeSuspendingMilliseconds)
+}
+
+function resumeEngineWhenAudible(engine: AmbientMusicEngine) {
+  window.clearTimeout(suspensionTimeoutIdentifier)
+  suspensionTimeoutIdentifier = 0
+  if (engine.audioContext.state === 'suspended') {
+    void engine.audioContext.resume()
+  }
+  if (engine.bellTimeoutIdentifier === 0) {
+    scheduleNextBell(engine)
+  }
+}
+
 function applyRequestedVolume() {
   if (!ambientMusicEngine) {
     return
@@ -272,6 +298,11 @@ function applyRequestedVolume() {
     audioContext.currentTime,
     (ambientDuckingShare < 1 ? duckingTransitionSeconds : volumeTransitionSeconds) / 3,
   )
+  if (requestedVolume > 0) {
+    resumeEngineWhenAudible(ambientMusicEngine)
+  } else {
+    suspendEngineOnceSilent(ambientMusicEngine)
+  }
 }
 
 export function changeGeneratedAmbientMusicDuckingShare(duckingShare: number) {
@@ -292,9 +323,6 @@ function startAmbientMusicAfterPlayerGesture() {
   }
   if (!ambientMusicEngine) {
     ambientMusicEngine = createAmbientMusicEngine()
-  }
-  if (ambientMusicEngine && ambientMusicEngine.audioContext.state === 'suspended') {
-    void ambientMusicEngine.audioContext.resume()
   }
   applyRequestedVolume()
 }

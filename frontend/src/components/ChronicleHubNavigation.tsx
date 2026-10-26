@@ -13,6 +13,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
 import { chooseAnimationVariantName } from '../animation/animation_variety'
 import { useInteractionFeedback } from '../audio/interaction_feedback'
+import { prefetchScreenModule } from '../loading/lazily_loaded_screens'
 import type { ScreenName } from '../navigation/screen_navigation'
 import { spanishInterfaceCopy } from '../spanish_interface_copy'
 
@@ -157,7 +158,10 @@ export function ChronicleHubNavigation({
           className="chronicle-hub-navigation-entry"
           data-returns-to-archive="true"
           data-pressed-ink-variant={pressedInkVariantName}
+          onFocus={() => prefetchScreenModule('archive_play')}
+          onPointerDown={() => prefetchScreenModule('archive_play')}
           onPointerEnter={(pointerEvent) => {
+            prefetchScreenModule('archive_play')
             if (pointerEvent.pointerType === 'mouse') {
               playInteractionFeedback('option_hover')
             }
@@ -183,10 +187,13 @@ export function ChronicleHubNavigation({
             aria-label={hubEntry.label}
             title={hubEntry.label}
             data-pressed-ink-variant={pressedInkVariantName}
-            onPointerDown={() =>
+            onFocus={() => prefetchScreenModule(hubEntry.screenName)}
+            onPointerDown={() => {
+              prefetchScreenModule(hubEntry.screenName)
               setPressedInkVariantName(chooseAnimationVariantName('chronicle_hub_pressed_ink', pressedInkVariantNames))
-            }
+            }}
             onPointerEnter={(pointerEvent) => {
+              prefetchScreenModule(hubEntry.screenName)
               if (pointerEvent.pointerType === 'mouse' && hubEntry.screenName !== currentScreenName) {
                 playInteractionFeedback('option_hover')
               }
