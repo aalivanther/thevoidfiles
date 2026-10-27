@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { alphaPaintedLikeColorString } from '../animation/canvas_alpha'
 
 export type CosmicFormationPhase = 'solitary_particle' | 'slow_gathering' | 'expansion' | 'title_formation'
 
@@ -156,9 +157,10 @@ export function CosmicTitleFormation({
     }
 
     const drawDistantStars = (frameTimestamp: number, visibility: number) => {
+      drawingContext.fillStyle = `rgb(${paperColor})`
       for (const distantStar of distantStars) {
         const twinkle = 0.6 + Math.sin(frameTimestamp / 900 + distantStar.twinkleOffset) * 0.4
-        drawingContext.fillStyle = `rgba(${paperColor}, ${distantStar.brightness * twinkle * visibility})`
+        drawingContext.globalAlpha = alphaPaintedLikeColorString(distantStar.brightness * twinkle * visibility)
         drawingContext.fillRect(
           distantStar.horizontalShare * canvasWidth,
           distantStar.verticalShare * canvasHeight,
@@ -166,6 +168,7 @@ export function CosmicTitleFormation({
           distantStar.size,
         )
       }
+      drawingContext.globalAlpha = 1
     }
 
     const drawShockwaveRing = (millisecondsSinceExpansion: number, ringDelayMilliseconds: number, ringColor: string) => {
@@ -429,7 +432,7 @@ export function CosmicTitleFormation({
       }
       hasAnyFrameBeenDrawn = true
       const activePhase = currentFormationPhase.current
-      const millisecondsInPhase = frameTimestamp - phaseStartTimestamp.current
+      const millisecondsInPhase = Math.max(0, frameTimestamp - phaseStartTimestamp.current)
       if (firstFrameTimestamp === null) {
         firstFrameTimestamp = frameTimestamp
       }
@@ -494,6 +497,7 @@ export function CosmicTitleFormation({
         const coreVerticalPosition = canvasHeight * 0.4 + (Math.random() - 0.5) * instability * 7
         const coreBreathing = 1 + Math.sin(frameTimestamp / (900 - gatheringProgress * 640)) * (0.05 + instability * 0.22)
         let gatheredParticleCount = 0
+        let paintedParticleColor = ''
         for (const cosmicParticle of cosmicParticles) {
           if (millisecondsInPhase < cosmicParticle.gatheringJoinDelayMilliseconds) {
             continue
@@ -525,7 +529,11 @@ export function CosmicTitleFormation({
             : cosmicParticle.isArcaneColored
               ? arcaneColor
               : paperColor
-          drawingContext.fillStyle = `rgba(${particleColor}, ${arrivalFade * twinkle * 0.85})`
+          if (particleColor !== paintedParticleColor) {
+            drawingContext.fillStyle = `rgb(${particleColor})`
+            paintedParticleColor = particleColor
+          }
+          drawingContext.globalAlpha = alphaPaintedLikeColorString(arrivalFade * twinkle * 0.85)
           const drawnSize = Math.max(1.1, cosmicParticle.size * 0.55)
           drawingContext.fillRect(
             cosmicParticle.horizontalPosition - drawnSize / 2,
@@ -534,6 +542,7 @@ export function CosmicTitleFormation({
             drawnSize,
           )
         }
+        drawingContext.globalAlpha = 1
         const accumulatedShare = gatheredParticleCount / Math.max(1, cosmicParticles.length)
         const glowRadius = 18 + accumulatedShare * Math.min(canvasWidth, canvasHeight) * 0.16 * coreBreathing
         const coreGlow = drawingContext.createRadialGradient(
@@ -564,7 +573,7 @@ export function CosmicTitleFormation({
           drawingContext.arc(
             canvasWidth / 2,
             canvasHeight * 0.4,
-            6 + easedRippleProgress * Math.min(canvasWidth, canvasHeight) * 0.24,
+            Math.max(0, 6 + easedRippleProgress * Math.min(canvasWidth, canvasHeight) * 0.24),
             0,
             Math.PI * 2,
           )

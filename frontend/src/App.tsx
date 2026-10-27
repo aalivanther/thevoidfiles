@@ -11,7 +11,7 @@ import {
   sceneTransitionCoverMilliseconds,
   sceneTransitionDurationMilliseconds,
 } from './animation/scene_playback_clock'
-import { preloadFrequentInteractionSounds, useInteractionFeedback } from './audio/interaction_feedback'
+import { preloadFrequentInteractionSoundsAfterStartup, useInteractionFeedback } from './audio/interaction_feedback'
 import { ChronicleHubNavigation } from './components/ChronicleHubNavigation'
 import {
   AcknowledgementsScreen,
@@ -34,7 +34,7 @@ import {
   WorldAtlasScreen,
   LazilyLoadedScreenFrame,
   ensureScreenModuleIsLoaded,
-  preloadRemainingScreensInBackground,
+  preloadLikelyScreensInBackground,
 } from './loading/lazily_loaded_screens'
 import { forgetStagingHistory } from './components/archive_chat_engine/staging/staging_director'
 import { OneiricFogLayer } from './components/OneiricFogLayer'
@@ -165,6 +165,13 @@ function findFirstPendingOnboardingScreen(chronicleState: ChronicleState): Scree
   )
 }
 
+function composeLikelyScreenNamesAfterStart(chronicleState: ChronicleState): ScreenName[] {
+  const pendingOnboardingScreenNames = onboardingScreenOrder.filter(
+    (onboardingScreenName) => !isOnboardingScreenCompleted(onboardingScreenName, chronicleState),
+  )
+  return [...new Set<ScreenName>(['title', ...pendingOnboardingScreenNames, 'whisper_selection', 'archive_play'])]
+}
+
 function resolveAllowedScreenName(
   requestedScreenName: ScreenName,
   chronicleState: ChronicleState,
@@ -226,11 +233,12 @@ function ApplicationScreens() {
   const { chronicleState, changeChronicleState, isDemonstrationArchiveFinished } = useChronicleState()
   const { playerSettings, shouldReduceMotion } = usePlayerSettings()
   const playInteractionFeedback = useInteractionFeedback()
+  const [likelyScreenNamesAfterStart] = useState(() => composeLikelyScreenNamesAfterStart(chronicleState))
 
   useEffect(() => {
-    preloadFrequentInteractionSounds()
-    preloadRemainingScreensInBackground()
-  }, [])
+    preloadFrequentInteractionSoundsAfterStartup()
+    preloadLikelyScreensInBackground(likelyScreenNamesAfterStart)
+  }, [likelyScreenNamesAfterStart])
 
   const [isSettingsSheetOpen, setIsSettingsSheetOpen] = useState(false)
   const [hasSettingsSheetBeenRequested, setHasSettingsSheetBeenRequested] = useState(false)

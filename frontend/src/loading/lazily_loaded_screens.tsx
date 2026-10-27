@@ -2,6 +2,7 @@ import { Component, Suspense, lazy } from 'react'
 import type { ErrorInfo, ReactNode } from 'react'
 import type { ScreenName } from '../navigation/screen_navigation'
 import { spanishInterfaceCopy } from '../spanish_interface_copy'
+import { shouldSpareOptionalDownloads, waitForIdleMoment } from './idle_moment'
 
 const screenModuleLoaders = {
   ai_configuration: () => import('../components/ai_configuration/AiConfigurationScreen'),
@@ -27,27 +28,6 @@ const screenModuleLoaders = {
 
 const loadAttemptDelaysInMilliseconds = [0, 700, 2000, 4500]
 
-const backgroundPreloadOrder: ScreenName[] = [
-  'title',
-  'investigator_registration',
-  'investigator_evaluation',
-  'origin_narration',
-  'oicnau_contact',
-  'whisper_selection',
-  'archive_play',
-  'archive_closure',
-  'chronicle_closed',
-  'character_dossier',
-  'case_journal',
-  'world_atlas',
-  'sanctuary_home',
-  'organizations_allies',
-  'chronicle_history',
-  'investigator_profile',
-  'acknowledgements',
-]
-
-const pauseBetweenBackgroundPreloadsInMilliseconds = 450
 const delayBeforeBackgroundPreloadStartsInMilliseconds = 1200
 
 function waitForMilliseconds(durationInMilliseconds: number): Promise<void> {
@@ -75,17 +55,27 @@ export function ensureScreenModuleIsLoaded(screenName: ScreenName): Promise<unkn
 }
 
 let hasBackgroundPreloadStarted = false
+const prefetchedScreenNames = new Set<ScreenName>()
 
-export function preloadRemainingScreensInBackground() {
-  if (hasBackgroundPreloadStarted) {
+export function prefetchScreenModule(screenName: ScreenName) {
+  if (prefetchedScreenNames.has(screenName)) {
+    return
+  }
+  prefetchedScreenNames.add(screenName)
+  void ensureScreenModuleIsLoaded(screenName)
+}
+
+export function preloadLikelyScreensInBackground(likelyScreenNames: ScreenName[]) {
+  if (hasBackgroundPreloadStarted || shouldSpareOptionalDownloads()) {
     return
   }
   hasBackgroundPreloadStarted = true
   const preloadOneScreenAfterAnother = async () => {
     await waitForMilliseconds(delayBeforeBackgroundPreloadStartsInMilliseconds)
-    for (const screenName of backgroundPreloadOrder) {
+    for (const screenName of likelyScreenNames) {
+      await waitForIdleMoment()
+      prefetchedScreenNames.add(screenName)
       await ensureScreenModuleIsLoaded(screenName)
-      await waitForMilliseconds(pauseBetweenBackgroundPreloadsInMilliseconds)
     }
   }
   void preloadOneScreenAfterAnother()
